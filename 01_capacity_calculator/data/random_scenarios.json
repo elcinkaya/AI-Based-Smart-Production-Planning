@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Random Scenario 1",
+    "input": {
+      "working_time_hours": 15.7,
+      "cycle_time_sec": 7.9,
+      "efficiency_percent": 34.8,
+      "demand_units": 834.0
+    },
+    "expected": {
+      "theoretical_capacity": 7154.43,
+      "effective_capacity": 2489.74,
+      "utilization_rate_percent": 33.5,
+      "capacity_gap": 1655.74,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 2",
+    "input": {
+      "working_time_hours": 17.9,
+      "cycle_time_sec": 82.8,
+      "efficiency_percent": 90.3,
+      "demand_units": 92.0
+    },
+    "expected": {
+      "theoretical_capacity": 778.26,
+      "effective_capacity": 702.77,
+      "utilization_rate_percent": 13.09,
+      "capacity_gap": 610.77,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 3",
+    "input": {
+      "working_time_hours": 10.7,
+      "cycle_time_sec": 8.4,
+      "efficiency_percent": 29.7,
+      "demand_units": 1032.0
+    },
+    "expected": {
+      "theoretical_capacity": 4585.71,
+      "effective_capacity": 1361.96,
+      "utilization_rate_percent": 75.77,
+      "capacity_gap": 329.96,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 4",
+    "input": {
+      "working_time_hours": 1.6,
+      "cycle_time_sec": 27.9,
+      "efficiency_percent": 68.5,
+      "demand_units": 116.0
+    },
+    "expected": {
+      "theoretical_capacity": 206.45,
+      "effective_capacity": 141.42,
+      "utilization_rate_percent": 82.03,
+      "capacity_gap": 25.42,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 5",
+    "input": {
+      "working_time_hours": 6.1,
+      "cycle_time_sec": 72.8,
+      "efficiency_percent": 82.8,
+      "demand_units": 2.0
+    },
+    "expected": {
+      "theoretical_capacity": 301.65,
+      "effective_capacity": 249.76,
+      "utilization_rate_percent": 0.8,
+      "capacity_gap": 247.76,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 6",
+    "input": {
+      "working_time_hours": 19.5,
+      "cycle_time_sec": 85.3,
+      "efficiency_percent": 40.6,
+      "demand_units": 78.0
+    },
+    "expected": {
+      "theoretical_capacity": 822.98,
+      "effective_capacity": 334.13,
+      "utilization_rate_percent": 23.34,
+      "capacity_gap": 256.13,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 7",
+    "input": {
+      "working_time_hours": 23.0,
+      "cycle_time_sec": 43.7,
+      "efficiency_percent": 18.3,
+      "demand_units": 50.0
+    },
+    "expected": {
+      "theoretical_capacity": 1894.74,
+      "effective_capacity": 346.74,
+      "utilization_rate_percent": 14.42,
+      "capacity_gap": 296.74,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 8",
+    "input": {
+      "working_time_hours": 20.5,
+      "cycle_time_sec": 74.4,
+      "efficiency_percent": 82.6,
+      "demand_units": 897.0
+    },
+    "expected": {
+      "theoretical_capacity": 991.94,
+      "effective_capacity": 819.34,
+      "utilization_rate_percent": 109.48,
+      "capacity_gap": -77.66,
+      "demand_met": false
+    }
+  },
+  {
+    "name": "Random Scenario 9",
+    "input": {
+      "working_time_hours": 13.3,
+      "cycle_time_sec": 116.9,
+      "efficiency_percent": 44.1,
+      "demand_units": 150.0
+    },
+    "expected": {
+      "theoretical_capacity": 409.58,
+      "effective_capacity": 180.63,
+      "utilization_rate_percent": 83.04,
+      "capacity_gap": 30.63,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Random Scenario 10",
+    "input": {
+      "working_time_hours": 20.1,
+      "cycle_time_sec": 76.1,
+      "efficiency_percent": 87.6,
+      "demand_units": 721.0
+    },
+    "expected": {
+      "theoretical_capacity": 950.85,
+      "effective_capacity": 832.95,
+      "utilization_rate_percent": 86.56,
+      "capacity_gap": 111.95,
+      "demand_met": true
+    }
+  }
+]
