@@ -8,10 +8,10 @@
       "demand_units": 700
     },
     "expected": {
-      "theoretical_capacity": 960,
-      "effective_capacity": 816,
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
       "utilization_rate_percent": 85.78,
-      "capacity_gap": 116,
+      "capacity_gap": 116.0,
       "demand_met": true
     }
   },
@@ -24,10 +24,10 @@
       "demand_units": 1000
     },
     "expected": {
-      "theoretical_capacity": 960,
-      "effective_capacity": 816,
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
       "utilization_rate_percent": 122.55,
-      "capacity_gap": -184,
+      "capacity_gap": -184.0,
       "demand_met": false
     }
   },
@@ -40,10 +40,10 @@
       "demand_units": 1000
     },
     "expected": {
-      "theoretical_capacity": 1280,
-      "effective_capacity": 1152,
+      "theoretical_capacity": 1280.0,
+      "effective_capacity": 1152.0,
       "utilization_rate_percent": 86.81,
-      "capacity_gap": 152,
+      "capacity_gap": 152.0,
       "demand_met": true
     }
   },
@@ -56,10 +56,10 @@
       "demand_units": 400
     },
     "expected": {
-      "theoretical_capacity": 480,
-      "effective_capacity": 336,
+      "theoretical_capacity": 480.0,
+      "effective_capacity": 336.0,
       "utilization_rate_percent": 119.05,
-      "capacity_gap": -64,
+      "capacity_gap": -64.0,
       "demand_met": false
     }
   },
@@ -72,10 +72,10 @@
       "demand_units": 1700
     },
     "expected": {
-      "theoretical_capacity": 1800,
-      "effective_capacity": 1710,
+      "theoretical_capacity": 1800.0,
+      "effective_capacity": 1710.0,
       "utilization_rate_percent": 99.42,
-      "capacity_gap": 10,
+      "capacity_gap": 10.0,
       "demand_met": true
     }
   },
@@ -88,10 +88,10 @@
       "demand_units": 768
     },
     "expected": {
-      "theoretical_capacity": 960,
-      "effective_capacity": 768,
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 768.0,
       "utilization_rate_percent": 100.00,
-      "capacity_gap": 0,
+      "capacity_gap": 0.0,
       "demand_met": true
     }
   },
@@ -104,10 +104,10 @@
       "demand_units": 0
     },
     "expected": {
-      "theoretical_capacity": 960,
-      "effective_capacity": 816,
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
       "utilization_rate_percent": 0.00,
-      "capacity_gap": 816,
+      "capacity_gap": 816.0,
       "demand_met": true
     }
   }

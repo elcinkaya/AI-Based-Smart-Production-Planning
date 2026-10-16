@@ -125,7 +125,7 @@ class TestScenarios(unittest.TestCase):
                 )
 
     def test_surplus_scenario_status(self):
-        """Verify surplus scenarios report 'KARŞILANIYOR'."""
+        """Verify surplus scenarios report demand is met."""
         surplus_scenarios = [
             s for s in self.scenarios if s["expected"]["demand_met"] is True
             and s["expected"]["capacity_gap"] > 0
@@ -133,17 +133,19 @@ class TestScenarios(unittest.TestCase):
         for scenario in surplus_scenarios:
             with self.subTest(scenario=scenario["name"]):
                 results = calculations.calculate(scenario["input"])
-                self.assertIn("KARŞILANIYOR", results["status_message"])
+                self.assertTrue(results["demand_met"])
+                self.assertIn("karşılanıyor", results["status_message"].lower())
 
     def test_deficit_scenario_status(self):
-        """Verify deficit scenarios report 'KARŞILANMIYOR'."""
+        """Verify deficit scenarios report demand is not met."""
         deficit_scenarios = [
             s for s in self.scenarios if s["expected"]["demand_met"] is False
         ]
         for scenario in deficit_scenarios:
             with self.subTest(scenario=scenario["name"]):
                 results = calculations.calculate(scenario["input"])
-                self.assertIn("KARŞILANMIYOR", results["status_message"])
+                self.assertFalse(results["demand_met"])
+                self.assertIn("karşılanamıyor", results["status_message"].lower())
 
     def test_exact_balance_scenario(self):
         """Verify the exact balance scenario (capacity_gap == 0)."""

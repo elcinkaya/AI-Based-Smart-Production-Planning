@@ -1,210 +1,145 @@
-# Module Notes – Mini Project 1: Production Capacity Calculator
-
-This document lists the functions and modules that can be carried over to
-the main project (AI-Based Smart Production Planning and Decision Support System).
-
----
-
-## Report Module (`report.py`)
-
-**Author:** Person C
-
-### `build_report(input_data: dict, results: dict) -> str`
-
-- **Purpose:** Formats input data and calculation results into a human-readable
-  production capacity report (Turkish).
-- **Parameters:**
-  - `input_data`: dict with keys `working_time_hours`, `cycle_time_sec`,
-    `efficiency_percent`, `demand_units`
-  - `results`: dict with keys `theoretical_capacity`, `effective_capacity`,
-    `utilization_rate_percent`, `capacity_gap`, `demand_met`, `status_message`
-- **Returns:** Multi-line report string.
-- **Errors:** None (relies on valid input from calculations module).
-- **Main project usage:** Can be used in Streamlit (Mini 19) or FastAPI (Mini 21)
-  endpoints to generate text-based reports. The `status_message` field feeds
-  directly into the decision support component.
-
-### `print_report(input_data: dict, results: dict) -> None`
-
-- **Purpose:** Prints the output of `build_report` to stdout.
-- **Parameters:** Same as `build_report`.
-- **Returns:** None.
-- **Main project usage:** Console/CLI interface only; web interfaces would use
-  `build_report` directly.
-
----
-
-## Calculation Module (`calculations.py`)
-
-**Author:** Person B
-
-### `theoretical_capacity(working_time_hours, cycle_time_sec) -> float`
-
-- **Purpose:** Calculates theoretical capacity (units/day).
-- **Formula:** `(working_time_hours * 3600) / cycle_time_sec`
-- **Parameters:** `working_time_hours` (float, hours/day), `cycle_time_sec` (float, seconds/unit)
-- **Returns:** float (units/day)
-- **Errors:** `ValueError` if either parameter ≤ 0.
-- **Main project usage:** Used in Machine class (Mini 2), OR-Tools planner (Mini 15),
-  dynamic re-planning (Mini 17).
-
-### `effective_capacity(theoretical, efficiency_percent) -> float`
-
-- **Purpose:** Calculates effective capacity accounting for efficiency losses.
-- **Formula:** `theoretical * (efficiency_percent / 100)`
-- **Parameters:** `theoretical` (float), `efficiency_percent` (float, 0 < x ≤ 100)
-- **Returns:** float (units/day)
-- **Errors:** `ValueError` if efficiency_percent ≤ 0 or > 100.
-- **Main project usage:** Right-hand side of capacity constraint in OR-Tools (Mini 15).
-
-### `utilization_rate(demand_units, effective) -> float`
-
-- **Purpose:** Calculates capacity utilization rate as a percentage.
-- **Formula:** `(demand_units / effective) * 100`
-- **Returns:** float (percent)
-- **Errors:** `ValueError` if effective == 0 or demand_units < 0.
-
-### `capacity_gap(effective, demand_units) -> float`
-
-- **Purpose:** Calculates the difference between capacity and demand.
-- **Formula:** `effective - demand_units`
-- **Returns:** float (positive = surplus, negative = deficit).
-
-### `demand_fulfillment_status(effective, demand_units) -> tuple[bool, str]`
-
-- **Purpose:** Determines whether demand is met and returns a status message.
-- **Returns:** `(is_met: bool, message: str)` with three cases: surplus, balance, deficit.
-- **Main project usage:** The `status_message` becomes the decision support message
-  in the final system.
-
-### `calculate(input_data: dict) -> dict`
-
-- **Purpose:** Orchestrates all calculations; builds the results dictionary.
-- **Returns:** dict with all result keys.
-- **Main project usage:** Direct service function for Streamlit (Mini 19) and
-  FastAPI (Mini 21). Stateless, so safe to call repeatedly (Mini 17 re-planning).
-
----
-
-## Input Module (`inputs.py`)
-
-**Author:** Person A
-
-### `get_number(prompt, min_value, max_value, min_inclusive, max_inclusive) -> float`
-
-- **Purpose:** Safely collects a numerical input with range validation.
-- **Returns:** float
-- **Main project usage:** CLI interfaces; web interfaces will use form validation instead.
-
-### `get_user_inputs() -> dict`
-
-- **Purpose:** Collects all 4 inputs and returns the input_data dictionary.
-- **Returns:** dict with keys defined in section 2.3.
-
----
-
-## Possible Extensions (not implemented, noted for future reference)
-
-- Multiple production lines / machines
-- Shift-based calculations
-- Batch scenario reading from CSV
-- Graphical output (charts)
-- Multi-language user messages (i18n)
 # Module Notes – Mini Project 01: Capacity Calculator
 
-> This document records each module's purpose, interface, and notes for
-> integration into the main project.  Each team member writes their own
-> section; Person C merges them at delivery time.
+> This document lists reusable functions and modules along with their purpose,
+> parameters, return values, exceptions, and where they can be used in the
+> main project. Each team member writes their own section.
 
 ---
 
-## Input Module (`inputs.py`) — Person A
+## Calculation Module (`calculations.py`) — Kişi B
 
-### Purpose
+This module is a **pure calculation library** with no I/O operations.
+It can be imported directly into the main project without modification.
 
-Collects the four production-capacity parameters from the user via the
-console, validates them against the agreed-upon ranges, and returns a
-validated dictionary (`input_data`) that matches the data contract in
-§ 2.3 of the project plan.
+### Functions
 
-### Public Functions
+#### `theoretical_capacity(working_time_hours, cycle_time_sec) → float`
 
-#### `get_number(prompt, min_value, max_value, min_inclusive, max_inclusive) → float`
+| Item | Detail |
+|------|--------|
+| **Purpose** | Calculate theoretical daily production capacity |
+| **Parameters** | `working_time_hours` (float): daily working time in hours (0 < val ≤ 24); `cycle_time_sec` (float): cycle time per unit in seconds (val > 0) |
+| **Returns** | Theoretical capacity in units/day |
+| **Raises** | `ValueError` if inputs are out of range or non-numeric |
+| **Main project usage** | `Machine` class attribute calculation (MP-02); capacity constraint RHS for OR-Tools (MP-15); baseline for NumPy vectorized version (MP-04) |
 
-| Parameter       | Type          | Description                                     |
-|-----------------|---------------|-------------------------------------------------|
-| `prompt`        | `str`         | Console prompt shown to the user (include unit) |
-| `min_value`     | `float\|None` | Lower bound (`None` = no lower bound)           |
-| `max_value`     | `float\|None` | Upper bound (`None` = no upper bound)           |
-| `min_inclusive`  | `bool`        | `True` → `>=`; `False` → `>`                    |
-| `max_inclusive`  | `bool`        | `True` → `<=`; `False` → `<`                    |
+#### `effective_capacity(theoretical, efficiency_percent) → float`
 
-* **Returns:** the validated `float` value.
-* **Error handling:** never raises; loops until a valid value is entered.
-* **Special:** converts decimal commas (`7,5` → `7.5`).
+| Item | Detail |
+|------|--------|
+| **Purpose** | Calculate effective (real) daily capacity considering efficiency |
+| **Parameters** | `theoretical` (float): theoretical capacity in units/day; `efficiency_percent` (float): efficiency as percentage (0 < val ≤ 100) |
+| **Returns** | Effective capacity in units/day |
+| **Raises** | `ValueError` if inputs are out of range or non-numeric |
+| **Main project usage** | OR-Tools capacity constraint (MP-15); dynamic re-planning after machine failure (MP-17); Streamlit/FastAPI service (MP-19/21) |
 
-#### `get_user_inputs() → dict`
+#### `utilization_rate(demand_units, effective) → float`
 
-Calls `get_number` four times with the correct ranges and returns:
+| Item | Detail |
+|------|--------|
+| **Purpose** | Calculate capacity utilization rate as a percentage |
+| **Parameters** | `demand_units` (float): daily demand in units (val ≥ 0); `effective` (float): effective capacity in units/day (val > 0) |
+| **Returns** | Utilization rate as percentage |
+| **Raises** | `ValueError` if demand is negative or effective is ≤ 0 |
+| **Main project usage** | KPI dashboard (MP-06/20); EDA health report (MP-10) |
 
-```python
-{
-    "working_time_hours": float,  # hours/day,   0 < x ≤ 24
-    "cycle_time_sec":     float,  # sec/unit,    x > 0
-    "efficiency_percent": float,  # percent,     0 < x ≤ 100
-    "demand_units":       float,  # units/day,   x ≥ 0
-}
-```
+#### `capacity_gap(effective, demand_units) → float`
 
-* **Returns:** `dict` with exactly those four keys (see § 2.3).
-* **No exceptions** propagate out of this function.
+| Item | Detail |
+|------|--------|
+| **Purpose** | Calculate the difference between effective capacity and demand |
+| **Parameters** | `effective` (float): effective capacity; `demand_units` (float): daily demand |
+| **Returns** | Gap in units/day (positive = surplus, negative = deficit, zero = balance) |
+| **Raises** | `ValueError` if either input is negative |
+| **Main project usage** | Plan feasibility test in dynamic re-planning (MP-17); alert threshold in Streamlit dashboard (MP-19) |
 
-### Units
+#### `demand_fulfillment_status(effective, demand_units) → tuple[bool, str]`
 
-| Key                  | Unit          | Constraint    |
-|----------------------|---------------|---------------|
-| `working_time_hours` | hours / day   | 0 < x ≤ 24   |
-| `cycle_time_sec`     | seconds / unit| x > 0         |
-| `efficiency_percent` | percent (%)   | 0 < x ≤ 100  |
-| `demand_units`       | units / day   | x ≥ 0         |
+| Item | Detail |
+|------|--------|
+| **Purpose** | Determine if demand can be met and provide a decision-support message |
+| **Parameters** | `effective` (float): effective capacity; `demand_units` (float): daily demand |
+| **Returns** | `(is_met: bool, message: str)` — three cases: surplus, balance, deficit |
+| **Raises** | `ValueError` if either input is negative |
+| **Main project usage** | Decision support messages for Streamlit/FastAPI (MP-19/21); SHAP explainability context (MP-22) |
 
-### Where It Can Be Used in the Main Project
+#### `calculate(input_data: dict) → dict`
 
-* **Mini Project 2 (OOP model):** `Machine.__init__` can call
-  `get_user_inputs()` or accept its output directly.
-* **Mini Project 19 (Streamlit):** Replace console `input()` calls with
-  Streamlit widgets; the validation logic (ranges, types) stays the same.
-* **Mini Project 21 (FastAPI):** `get_number` logic translates directly
-  to Pydantic field validators.
-* **i18n readiness:** All user-facing strings (prompts, error messages)
-  are gathered at the top of each function, making future
-  internationalisation straightforward.
+| Item | Detail |
+|------|--------|
+| **Purpose** | Run the full calculation pipeline as a single entry point |
+| **Parameters** | `input_data` (dict): keys from section 2.3 (`working_time_hours`, `cycle_time_sec`, `efficiency_percent`, `demand_units`) |
+| **Returns** | Results dict with keys: `theoretical_capacity`, `effective_capacity`, `utilization_rate_percent`, `capacity_gap`, `demand_met`, `status_message` |
+| **Raises** | `ValueError` (from sub-functions), `KeyError` (missing input key) |
+| **Main project usage** | Direct service function for FastAPI endpoint (MP-21); Streamlit callback (MP-19); re-invoked after fault in dynamic re-planning (MP-17) |
 
-### Tests
+### Data Files
 
-`tests/test_inputs.py` — 18 test cases covering:
+| File | Purpose |
+|------|---------|
+| `data/scenarios.json` | 7 hand-verified test scenarios with inputs and expected outputs |
+| `data/generate_data.py` | Random scenario generator (seed=42) for extended testing |
+| `data/random_scenarios.json` | Generated output from `generate_data.py` (10 scenarios) |
 
-| Category               | Examples tested                        |
-|------------------------|----------------------------------------|
-| Happy path             | integer, dot-decimal, comma-decimal    |
-| Empty input            | just Enter                             |
-| Non-numeric            | `abc`, `8h`                            |
-| Negative values        | `-5`, `-50`                            |
-| Zero (exclusive)       | `0` for working_time, cycle_time       |
-| Over upper bound       | `25` (hours), `120` (efficiency)       |
-| Boundary values        | `24`, `100`, `0` (demand), `0.1`       |
-| Multiple retries       | several bad inputs then a valid one    |
-| Dict key correctness   | exact keys from § 2.3                  |
-| Return type            | all values are `float`                 |
+### Design Decisions
 
----
-
-## Calculation Module (`calculations.py`) — Person B
-
-*(To be completed by Person B)*
+1. **No I/O in calculations**: All functions are pure — no `print()` or `input()` calls. This makes them safe to import as a library.
+2. **No rounding**: Numbers are returned unrounded; rounding is the report module's responsibility.
+3. **Efficiency as percentage**: Efficiency is passed and stored as a percentage (e.g., 85), not as a decimal (0.85), consistent with section 2.1.
+4. **Turkish user-facing messages**: `status_message` and `ValueError` messages are in Turkish per section 2.6.
+5. **Stateless functions**: No global variables or state. Functions can be called repeatedly (important for MP-17 dynamic re-planning).
 
 ---
 
-## Report Module (`report.py`) — Person C
+## Input Module (`inputs.py`) — Kişi A
 
-*(To be completed by Person C)*
+### `get_number(prompt, min_value, max_value, min_inclusive, max_inclusive) → float`
+
+| Item | Detail |
+|------|--------|
+| **Purpose** | Safely collect a numerical input from the user with range validation |
+| **Parameters** | `prompt` (str): message shown to user; `min_value` / `max_value` (float or None): range bounds; `min_inclusive` / `max_inclusive` (bool): boundary inclusivity |
+| **Returns** | float — validated number |
+| **Errors** | Re-asks on invalid input (empty, non-numeric, out-of-range). Never crashes. |
+| **Main project usage** | CLI interfaces only; web interfaces will use form validation instead |
+
+### `get_user_inputs() → dict`
+
+| Item | Detail |
+|------|--------|
+| **Purpose** | Collect all 4 production inputs and return the input_data dictionary |
+| **Returns** | dict with keys: `working_time_hours`, `cycle_time_sec`, `efficiency_percent`, `demand_units` |
+| **Main project usage** | Console entry point; Streamlit/FastAPI endpoints receive data via forms/JSON instead |
+
+---
+
+## Report Module (`report.py`) — Kişi C
+
+### `build_report(input_data: dict, results: dict) → str`
+
+| Item | Detail |
+|------|--------|
+| **Purpose** | Format input data and calculation results into a human-readable Turkish production capacity report |
+| **Parameters** | `input_data` (dict): 4 input keys; `results` (dict): 6 result keys from `calculate()` |
+| **Returns** | Multi-line report string |
+| **Errors** | None (relies on valid input from calculations module) |
+| **Main project usage** | Streamlit (MP-19) or FastAPI (MP-21) endpoints for text-based reports; `status_message` field feeds directly into the decision support component |
+
+### `print_report(input_data: dict, results: dict) → None`
+
+| Item | Detail |
+|------|--------|
+| **Purpose** | Print the output of `build_report` to stdout |
+| **Parameters** | Same as `build_report` |
+| **Returns** | None |
+| **Main project usage** | Console/CLI interface only; web interfaces use `build_report` directly |
+
+---
+
+## Possible Future Extensions (Not Implemented)
+
+- Multi-machine / multi-line capacity aggregation
+- Shift-based calculations (day/night shifts with different efficiencies)
+- Batch scenario processing from CSV
+- Graphical output (charts)
+- Multi-language user messages (i18n)
