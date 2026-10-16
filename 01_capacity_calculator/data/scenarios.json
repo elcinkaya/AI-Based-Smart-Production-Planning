@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Scenario 1 - Capacity surplus",
+    "input": {
+      "working_time_hours": 8,
+      "cycle_time_sec": 30,
+      "efficiency_percent": 85,
+      "demand_units": 700
+    },
+    "expected": {
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
+      "utilization_rate_percent": 85.78,
+      "capacity_gap": 116.0,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Scenario 2 - Capacity deficit",
+    "input": {
+      "working_time_hours": 8,
+      "cycle_time_sec": 30,
+      "efficiency_percent": 85,
+      "demand_units": 1000
+    },
+    "expected": {
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
+      "utilization_rate_percent": 122.55,
+      "capacity_gap": -184.0,
+      "demand_met": false
+    }
+  },
+  {
+    "name": "Scenario 3 - Double shift surplus",
+    "input": {
+      "working_time_hours": 16,
+      "cycle_time_sec": 45,
+      "efficiency_percent": 90,
+      "demand_units": 1000
+    },
+    "expected": {
+      "theoretical_capacity": 1280.0,
+      "effective_capacity": 1152.0,
+      "utilization_rate_percent": 86.81,
+      "capacity_gap": 152.0,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Scenario 4 - Low efficiency deficit",
+    "input": {
+      "working_time_hours": 8,
+      "cycle_time_sec": 60,
+      "efficiency_percent": 70,
+      "demand_units": 400
+    },
+    "expected": {
+      "theoretical_capacity": 480.0,
+      "effective_capacity": 336.0,
+      "utilization_rate_percent": 119.05,
+      "capacity_gap": -64.0,
+      "demand_met": false
+    }
+  },
+  {
+    "name": "Scenario 5 - Near limit surplus",
+    "input": {
+      "working_time_hours": 10,
+      "cycle_time_sec": 20,
+      "efficiency_percent": 95,
+      "demand_units": 1700
+    },
+    "expected": {
+      "theoretical_capacity": 1800.0,
+      "effective_capacity": 1710.0,
+      "utilization_rate_percent": 99.42,
+      "capacity_gap": 10.0,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Scenario 6 - Exact balance",
+    "input": {
+      "working_time_hours": 8,
+      "cycle_time_sec": 30,
+      "efficiency_percent": 80,
+      "demand_units": 768
+    },
+    "expected": {
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 768.0,
+      "utilization_rate_percent": 100.00,
+      "capacity_gap": 0.0,
+      "demand_met": true
+    }
+  },
+  {
+    "name": "Scenario 7 - Zero demand",
+    "input": {
+      "working_time_hours": 8,
+      "cycle_time_sec": 30,
+      "efficiency_percent": 85,
+      "demand_units": 0
+    },
+    "expected": {
+      "theoretical_capacity": 960.0,
+      "effective_capacity": 816.0,
+      "utilization_rate_percent": 0.00,
+      "capacity_gap": 816.0,
+      "demand_met": true
+    }
+  }
+]
