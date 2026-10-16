@@ -1,0 +1,4 @@
+# Requirements for Mini Project 1 – Production Capacity Calculator
+# Python 3.10+ required
+# No external packages needed – uses only the standard library
+# Tests use the built-in unittest module
