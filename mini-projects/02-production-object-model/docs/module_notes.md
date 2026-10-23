@@ -85,7 +85,7 @@ The `serialization.py` module handles persistence and interchange formats (JSON 
 
 #### `factory_from_dict(data: dict) -> dict`
 - **Purpose**: Reconstructs entities in dependency order (`products` -> `machines` -> `lines`).
-- **Integration Guard**: Deserializes products immediately; gracefully handles empty machine/line lists or raises explicit `RuntimeError` if machine/line dictionaries are present before Kişi B and Kişi C complete their classes.
+- **Integration Guard**: Deserializes products and machines directly using domain classes (`Product`, `Machine`). Line deserialization is completed when Kişi C finalizes `ProductionLine`.
 
 #### `save_factory_json(path: str, products: list, machines: list, lines: list) -> None`
 - **Purpose**: Writes serialized factory layout to JSON (`utf-8`, indented, `ensure_ascii=False` to preserve Turkish characters).
@@ -101,7 +101,42 @@ The `serialization.py` module handles persistence and interchange formats (JSON 
 ---
 
 ## 4. Machine & MachineStatus Module (`factory_model/machine.py`) — Kişi B
-*(To be completed by Kişi B)*
+
+The `machine.py` module defines the operational entity `Machine` and state management enum `MachineStatus`.
+
+### 4.1 `MachineStatus` (Enum)
+- **Values**: `IDLE = 'idle'`, `RUNNING = 'running'`, `MAINTENANCE = 'maintenance'`, `BROKEN = 'broken'`.
+- String-based enum enabling transparent JSON serialization and database storage.
+
+### 4.2 `Machine(FactoryEntity)`
+- **Data Contract Attributes**:
+  - `machine_id` (str): Unique machine identifier (e.g. `'M1'`). Non-empty.
+  - `name` (str): Display name. Non-empty.
+  - `working_hours` (float): Daily working time in hours/day (`0 < x <= 24`).
+  - `cycle_time_sec` (float): Base cycle time per unit in seconds (`x > 0`).
+  - `efficiency_pct` (float): Efficiency as a percentage (`0 < x <= 100`).
+  - `maintenance_interval_hours` (float): Interval in operating hours between required maintenance (`x > 0`).
+  - `status` (MachineStatus): Current state. Default: `IDLE`.
+  - `operating_hours_since_maintenance` (float): Accumulated operating hours since last service (`x >= 0`). Default: `0.0`.
+  - `line_id` (str | None): ID of assigned production line. Default: `None`.
+
+### 4.3 Methods & Behaviors
+- **`set_status(new_status: MachineStatus) -> None`**: Enforces the state transition matrix from Section 3.5. Same-state transitions are treated as no-op. Invalid transitions raise `ValueError` with clear Turkish error messages.
+- **`is_available() -> bool`**: Returns `True` if status is `IDLE` or `RUNNING`.
+- **`get_theoretical_capacity(cycle_time_sec: float | None = None) -> float`**: Independent of machine status. Calls `calculations.theoretical_capacity`. Supports overriding cycle time for product-specific capacity.
+- **`get_effective_capacity(cycle_time_sec: float | None = None) -> float`**: Returns `0.0` when unavailable (`MAINTENANCE` or `BROKEN`). Calls `calculations.effective_capacity` when available.
+- **`needs_maintenance() -> bool`**: Returns `True` when `operating_hours_since_maintenance >= maintenance_interval_hours`.
+- **`add_operating_hours(hours: float) -> None`**: Only allowed while machine status is `RUNNING` and `hours > 0`.
+- **`perform_maintenance() -> None`**: Only allowed in `MAINTENANCE` state. Resets counter to `0.0` and transitions status to `IDLE`.
+- **`to_dict() -> dict`** & **`from_dict(cls, data: dict) -> Machine`**: Full serialization support adhering to Section 3.4.
+
+### 4.4 Roadmap & Main Project Usage
+- **MP-03 (CSV/JSON)**: Key reference entity in event logs and audit trails.
+- **MP-04 & MP-05 (NumPy & Pandas)**: `to_dict()` outputs map cleanly into arrays and DataFrames.
+- **MP-07 (SmartFactoryDB)**: Maps directly to the `machines` table; `line_id` acts as a foreign key.
+- **MP-13 (Predictive Maintenance)**: `operating_hours_since_maintenance` and `maintenance_interval_hours` serve as model features for failure risk.
+- **MP-15 & MP-16 (Scheduling)**: Capacity constraint calculations in solver formulation.
+- **MP-17 (Dynamic Rescheduling)**: `set_status(MachineStatus.BROKEN)` triggers instant replanning.
 
 ---
 
