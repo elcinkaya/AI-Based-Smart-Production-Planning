@@ -1,0 +1,3 @@
+# Mini Project 02 – Factory Object Model
+# Standard library only; no external dependencies.
+# Test runner: python -m unittest discover tests
