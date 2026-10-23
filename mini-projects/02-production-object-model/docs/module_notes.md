@@ -140,5 +140,57 @@ The `machine.py` module defines the operational entity `Machine` and state manag
 
 ---
 
-## 5. ProductionLine & Integration Module (`factory_model/production_line.py`) — Kişi C
-*(To be completed by Kişi C)*
+## 5. ProductionLine & Integration Module (`factory_model/production_line.py`, `factory_model/sample_data.py`, `main.py`) — Kişi C
+
+The `production_line.py` module defines the aggregate entity `ProductionLine`, product-line matching utilities, and factory construction routines.
+
+### 5.1 `ProductionLine(FactoryEntity)`
+- **Data Contract Attributes**:
+  - `line_id` (str): Unique line identifier (e.g. `'L1'`). Non-empty.
+  - `name` (str): Display name. Non-empty.
+  - `machines` (list[Machine]): List of assigned `Machine` instances (internal collection).
+  - `compatible_product_codes` (set[str]): Set of product codes (`product_code`) compatible with this line.
+- **Methods & Behaviors**:
+  - `add_machine(machine: Machine) -> None`: Adds a machine to the line and automatically sets `machine.line_id = self.line_id`.
+    - Raises `TypeError` if `machine` is not a `Machine` instance.
+    - Raises `ValueError` if the machine is already on this line or already assigned to another line.
+  - `remove_machine(machine_id: str) -> Machine`: Removes the machine matching `machine_id` and sets its `line_id = None`. Raises `ValueError` if not found.
+  - `get_machine(machine_id: str) -> Machine`: Retrieves a machine by its identifier. Raises `ValueError` if not found.
+  - `add_compatible_product(product: Product) -> None`: Registers a product's compatibility by storing its `product_code`. Avoids circular object references. Raises `TypeError` if input is not a `Product`.
+  - `is_compatible(product: Product) -> bool`: Checks whether `product.product_code` exists in the compatible product set.
+  - `get_available_machines() -> list[Machine]`: Filters and returns machines whose status is `IDLE` or `RUNNING`.
+  - `get_effective_capacity(product: Product | None = None) -> float`: Calculates total line effective capacity under the parallel machine assumption.
+    - If `product is None`: Sums each available machine's default effective capacity.
+    - If `product is not None`: Uses `product.processing_time_sec` as cycle time across all available machines. Raises `ValueError` if the product is not compatible with the line.
+  - `get_machines_needing_maintenance() -> list[Machine]`: Returns all machines assigned to this line that require service (`needs_maintenance() == True`).
+  - `to_dict() -> dict`: Returns dictionary with keys: `line_id`, `name`, `machine_ids` (list of strings), `compatible_product_codes` (sorted list of strings).
+  - `from_dict(cls, data: dict, machines_by_id: dict[str, Machine]) -> ProductionLine`: Deserializes a line dictionary using pre-constructed machine instances from `machines_by_id`. Re-links machines and compatibility codes. Raises `ValueError` if required fields or machine IDs are missing.
+  - `__repr__() -> str`: Human-readable summary including line ID, name, machine count/IDs, and compatible product codes.
+
+### 5.2 Helper Function: `find_lines_for_product`
+- **Signature**: `find_lines_for_product(product: Product, lines: list[ProductionLine]) -> list[ProductionLine]`
+- **Purpose**: Filters the provided list of production lines to find all lines capable of manufacturing the specified product.
+- **Returns**: List of matching `ProductionLine` objects.
+
+### 5.3 Sample Factory Builder (`factory_model/sample_data.py`)
+- **`build_sample_factory() -> dict`**:
+  - Constructs the reference layout specified in Section 7.1: 3 products (`P-A`, `P-B`, `P-C`), 5 machines (`M1`–`M5`), and 3 lines (`L1`–`L3`).
+  - Returns `{'products': [...], 'machines': [...], 'lines': [...]}`.
+
+### 5.4 Demo Runner (`main.py`)
+- **Workflow**:
+  1. Instantiates sample factory via `build_sample_factory()`.
+  2. Prints line statuses, machine allocations, and theoretical/effective capacities.
+  3. Lists machines exceeding maintenance thresholds.
+  4. Simulates machine breakdown (`BROKEN`), illustrates line capacity reduction, initiates maintenance (`MAINTENANCE` -> `perform_maintenance()`), and demonstrates full capacity recovery.
+  5. Outputs product-line compatibility matrix and available routing options.
+  6. Exports snapshot to `data/sample_factory.json`.
+
+### 5.5 Roadmap & Main Project Usage
+- **MP-03 (CSV/JSON)**: Defines foreign key relations (`machine.line_id`, `line_products`).
+- **MP-07 (SmartFactoryDB)**: Maps directly to `production_lines` table and `line_products` junction table.
+- **MP-15 & MP-16 (OR-Tools / Scheduling)**: `line.get_effective_capacity(product)` serves as the primary capacity constraint; `find_lines_for_product()` generates the routing feasibility matrix.
+- **MP-17 (Dynamic Rescheduling)**: Instant recomputation of `get_effective_capacity()` upon machine status change without any hidden state.
+- **MP-18 (SimPy Simulation)**: ProductionLine acts as the composite resource dispatching work to machine queues.
+- **MP-19 & MP-21 (Streamlit & FastAPI)**: Serves as the core business logic layer for web dashboard widgets and REST endpoints.
+

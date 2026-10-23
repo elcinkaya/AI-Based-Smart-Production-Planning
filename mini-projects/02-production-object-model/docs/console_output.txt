@@ -1,0 +1,52 @@
+============================================================
+  Mini Proje 2 – Fabrika Nesne Modeli Demo
+============================================================
+
+>>> Hat Bilgileri ve Kapasiteler
+
+Hat: Machining Line (L1)
+------------------------------------------------------------
+  M1 (CNC Lathe 1): Durum=running, Teorik=960 adet/gün, Efektif=816 adet/gün
+  M2 (CNC Lathe 2): Durum=idle, Teorik=1280 adet/gün, Efektif=1152 adet/gün
+  → Hat toplam efektif kapasite: 1968 adet/gün
+
+Hat: Milling Line (L2)
+------------------------------------------------------------
+  M3 (Milling Machine 1): Durum=running, Teorik=480 adet/gün, Efektif=336 adet/gün
+  M4 (Milling Machine 2): Durum=broken, Teorik=1800 adet/gün, Efektif=0 adet/gün
+  → Hat toplam efektif kapasite: 336 adet/gün
+
+Hat: Assembly Line (L3)
+------------------------------------------------------------
+  M5 (Assembly Station): Durum=idle, Teorik=960 adet/gün, Efektif=768 adet/gün
+  → Hat toplam efektif kapasite: 768 adet/gün
+
+>>> Bakım Gereken Makineler
+
+  ⚠ M2 (CNC Lathe 2) – Çalışma: 205h / Bakım aralığı: 200h
+
+>>> Arıza ve Onarım Senaryosu
+
+L1 kapasite (önce): 1968 adet/gün
+M1 arızaya alındı → L1 kapasite: 1152 adet/gün
+M1 bakım yapılıp onarıldı → L1 kapasite: 1968 adet/gün
+
+>>> Ürün–Hat Uygunluk Tablosu
+
+  Ürün        L1          L2          L3          
+  ------------------------------------------------
+  P-A         ✓           ✗           ✓           
+  P-B         ✓           ✓           ✗           
+  P-C         ✗           ✓           ✓           
+
+>>> Ürünlerin Üretilebileceği Hatlar
+
+  P-A (Bracket): L1 (Machining Line), L3 (Assembly Line)
+  P-B (Shaft): L1 (Machining Line), L2 (Milling Line)
+  P-C (Housing): L2 (Milling Line), L3 (Assembly Line)
+
+>>> Fabrika verisi kaydedildi: data/sample_factory.json
+
+============================================================
+  Demo tamamlandı.
+============================================================
