@@ -67,7 +67,75 @@ Bu durum Kişi A tarafından tespit edilmiş, uydurma veri üretilmek yerine şa
 ---
 
 ## 2. Depolama ve RecordStore (Kişi B)
-*(Kişi B tarafından doldurulacaktır: storage.py, record_store.py, test_storage.py, test_record_store.py)*
+
+### 2.1 Sorumluluk Kapsamı
+- `production_records/storage.py`: CSV ve JSON dosya formatları için durumsuz (stateless) okuma, atomik yazma, güvenli ekleme ve format dönüştürme fonksiyonları.
+- `production_records/record_store.py`: `RecordStore` depo (repository) sınıfı; otomatik `record_id` atama, mükerrer kayıt engelleme, geçerli makine/ürün doğrulama ve filtreleme yetenekleri.
+- `tests/test_storage.py`: CSV/JSON I/O, atomik yazma, bozuk dosya ve veri bütünlüğü birim testleri (30 test).
+- `tests/test_record_store.py`: `RecordStore` CRUD, doğrulama, toplu ekleme ve oturumlar arası kalıcılık testleri (37 test).
+
+### 2.2 storage.py Tasarımı ve Dosya İşlemleri
+
+`storage.py` modülü Mini Proje 2'deki `save_*` / `load_*` adlandırma geleneğini sürdürür ve durumsuz çalışır (hiçbir önbellek tutulmaz, veriler doğrudan dosyadan okunur/yazılır).
+
+#### CSV İşlemleri
+- **Sütun Sırası ve İsimleri (`CSV_COLUMNS`):**
+  `['record_id', 'production_date', 'shift', 'machine_id', 'product_code', 'planned_units', 'actual_units', 'downtime_hours']`
+- **Dosya Açma:** `newline=''` ve `encoding='utf-8'` standartlarına kesinlikle uyulur.
+- **Okuma (`load_records_csv`):** Dosya yoksa veya 0 bayt ise boş liste `[]` döner. Başlık satırı kontrol edilir; eksik veya hatalıysa dosya adı belirtilerek `ValueError` fırlatılır. Sayısal alanlar (`record_id`, `planned_units`, `actual_units`, `downtime_hours`) doğru tiplere dönüştürülüp `ProductionRecord.from_dict`'e aktarılır. Satır bazında hata yakalandığında dosya adı ve satır numarası Türkçe hata mesajında belirtilir.
+- **Yazma (`save_records_csv`):** Üst klasör otomatik oluşturulur (`_ensure_parent_dir`). Başlık ve tüm kayıtlar sırayla yazılır.
+- **Ekleme (`append_record_csv`):** Dosya `'a'` (append) kipinde açılır; mevcut satırlara asla dokunulmaz. Başlık satırı yalnızca dosya yeni veya boş (0 bayt) ise yazılır, mevcut dosyada başlık tekrarlanmaz.
+
+#### JSON İşlemleri
+- **Şema Standardı (`JSON_SCHEMA_VERSION = 1`):**
+  `{"schema_version": 1, "records": [...]}` üst düzey sözlük yapısı.
+- **Okuma (`load_records_json`):** Dosya yoksa veya 0 bayt ise `[]` döner. Bozuk/geçersiz JSON durumunda dosya adı ve ayrıştırma hatasını içeren `ValueError` fırlatılır.
+- **Atomik Yazma (`save_records_json`):** Olası kesintilerde veya yazma hatalarında mevcut dosyanın bozulmasını önlemek için veriler önce `path + '.tmp'` geçici dosyasına yazılır, ardından `os.replace` ile asıl dosyanın yerine geçirilir.
+- **Ekleme (`append_record_json`):** Oku-değiştir-yaz (read-modify-write) kalıbı ve atomik yazma altyapısı kullanılarak güvenli ekleme yapılır.
+
+#### Biçim Dönüştürme (`convert_records_file`)
+- CSV ile JSON arasında çift yönlü kayıt dönüştürme gerçekleştirir.
+- Kaynak ve hedef uzantılarına göre dinamik yükleme ve kaydetme yapar; dönüştürülen kayıt sayısını (`int`) döndürür.
+
+### 2.3 RecordStore Sınıfı Tasarımı
+
+`RecordStore`, veri depolama mantığını soyutlayan ve Mini Proje 9'daki veritabanı geçişine zemin hazırlayan hafif bir Repository katmanıdır:
+
+```python
+class RecordStore:
+    def __init__(self, path: str, valid_machine_ids: set[str] | None = None, valid_product_codes: set[str] | None = None)
+    def add_record(self, record: ProductionRecord) -> ProductionRecord
+    def add_records(self, records: list) -> list[ProductionRecord]
+    def get_all(self) -> list[ProductionRecord]
+    def get_record(self, record_id: int) -> ProductionRecord
+    def filter_records(self, date_from=None, date_to=None, machine_id=None, product_code=None, shift=None) -> list[ProductionRecord]
+    def count(self) -> int
+```
+
+#### Önemli Kurallar ve Uygulama Detayları
+1. **Format Algılama:** Dosya uzantısından (`.csv` veya `.json`) biçim otomatik saptanır; farklı bir uzantı verilirse `ValueError` fırlatılır.
+2. **Kayıt Numarası (ID) Yönetimi:**
+   - Yeni kaydın `record_id` değeri başlangıçta `None` olmalıdır (aksi halde `ValueError`).
+   - Depo, mevcut kayıtlar arasındaki en büyük `record_id` değerini bulup `max_id + 1` olarak atar (boş depoda 1'den başlar).
+3. **Mükerrer Kayıt Engelleme:**
+   - Aynı `(production_date, shift, machine_id)` üçlüsüne (`record.get_key()`) sahip birden fazla kayıt depoya eklenemez.
+4. **Geçerli Kimlik Kümeleri:**
+   - Fabrika modelinden (`sample_factory.json`) gelen `valid_machine_ids` ve `valid_product_codes` kümeleri tanımlanmışsa, bu listelerde yer almayan kimlikler için Türkçe hata mesajı üretilir.
+5. **Toplu Kayıt Eklemede Bütünlük (All-or-Nothing Atomik Doğrulama):**
+   - `add_records()` metodu iki aşamalı çalışır: Önce listedeki TÜM kayıtların geçerliliği, mükerrerlikleri ve toplu liste içindeki çakışmaları denetlenir. Herhangi bir kayıt hatalıysa hiçbir veri dosyaya yazılmaz. Doğrulama başarılı olursa ID'ler sıralı atanır ve atomik olarak kaydedilir.
+6. **Esnek Filtreleme (`filter_records`):**
+   - `date_from` ve `date_to` (dahil / inclusive), `machine_id`, `product_code`, `shift` (Shift enum veya string).
+   - Tüm filtreler `AND` mantığıyla birleşir. Parametre tipi uyuşmazlıkları güvenle yakalanır.
+7. **Durumsuzluk ve Oturum Kalıcılığı:**
+   - Nesne bellekte veri listesi tutmaz; her sorgu dosyadan güncel veriyi okur. Uygulama kapatılıp açıldığında veri kaybı yaşanmaz.
+
+### 2.4 Test Stratejisi ve Doğrulama
+- Tüm birim testlerinde `tempfile.TemporaryDirectory()` kullanılarak izole geçici çalışma alanları oluşturulmuş, gerçek `data/` dosyalarına dokunulmamıştır.
+- CSV ve JSON için atomik yazma, bozuk JSON/CSV okuma, geçersiz başlık yakalama, gidiş-dönüş (roundtrip) format dönüştürme ve oturum kapat-aç kalıcılık senaryoları tam kapsamla test edilmiştir.
+
+### 2.5 Ana Projeye Taşınacak Parçalar
+- `storage.py` içindeki CSV ve JSON dönüştürücüler, veri dışa/içe aktarma (import/export) servisleri olarak ana sistemde kullanılacaktır.
+- `RecordStore` arayüzü, Mini Proje 9'da SQLAlchemy/SQLite veritabanı sürücüsü entegre edildiğinde aynı metot imzaları korunarak veri erişim katmanının (DAL) temelini oluşturacaktır.
 
 ---
 
