@@ -1,0 +1,1505 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": 1,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 757,
+      "actual_units": 618,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 2,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 546,
+      "actual_units": 564,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 3,
+      "production_date": "2026-10-01",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 471,
+      "actual_units": 426,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 4,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 283,
+      "actual_units": 256,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 5,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 645,
+      "actual_units": 633,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 6,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 689,
+      "actual_units": 704,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 7,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 462,
+      "actual_units": 464,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 8,
+      "production_date": "2026-10-02",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 500,
+      "actual_units": 297,
+      "downtime_hours": 3.0
+    },
+    {
+      "record_id": 9,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 275,
+      "actual_units": 187,
+      "downtime_hours": 2.5
+    },
+    {
+      "record_id": 10,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 738,
+      "actual_units": 724,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 11,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 812,
+      "actual_units": 798,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 12,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 556,
+      "actual_units": 572,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 13,
+      "production_date": "2026-10-03",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 527,
+      "actual_units": 478,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 14,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 284,
+      "actual_units": 249,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 15,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 630,
+      "actual_units": 451,
+      "downtime_hours": 2.0
+    },
+    {
+      "record_id": 16,
+      "production_date": "2026-10-04",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 713,
+      "actual_units": 649,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 17,
+      "production_date": "2026-10-04",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 535,
+      "actual_units": 495,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 18,
+      "production_date": "2026-10-04",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 545,
+      "actual_units": 482,
+      "downtime_hours": 1.25
+    },
+    {
+      "record_id": 19,
+      "production_date": "2026-10-04",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 312,
+      "actual_units": 313,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 20,
+      "production_date": "2026-10-04",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 744,
+      "actual_units": 695,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 21,
+      "production_date": "2026-10-05",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 658,
+      "actual_units": 619,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 22,
+      "production_date": "2026-10-05",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 485,
+      "actual_units": 500,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 23,
+      "production_date": "2026-10-05",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 497,
+      "actual_units": 477,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 24,
+      "production_date": "2026-10-05",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 330,
+      "actual_units": 310,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 25,
+      "production_date": "2026-10-05",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 652,
+      "actual_units": 612,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 26,
+      "production_date": "2026-10-06",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 748,
+      "actual_units": 718,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 27,
+      "production_date": "2026-10-06",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 486,
+      "actual_units": 475,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 28,
+      "production_date": "2026-10-06",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 471,
+      "actual_units": 439,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 29,
+      "production_date": "2026-10-06",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 322,
+      "actual_units": 293,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 30,
+      "production_date": "2026-10-06",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 673,
+      "actual_units": 659,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 31,
+      "production_date": "2026-10-07",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 811,
+      "actual_units": 731,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 32,
+      "production_date": "2026-10-07",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 544,
+      "actual_units": 533,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 33,
+      "production_date": "2026-10-07",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 492,
+      "actual_units": 451,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 34,
+      "production_date": "2026-10-07",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 298,
+      "actual_units": 311,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 35,
+      "production_date": "2026-10-07",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 749,
+      "actual_units": 542,
+      "downtime_hours": 1.75
+    },
+    {
+      "record_id": 36,
+      "production_date": "2026-10-08",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 802,
+      "actual_units": 758,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 37,
+      "production_date": "2026-10-08",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 534,
+      "actual_units": 493,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 38,
+      "production_date": "2026-10-08",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 549,
+      "actual_units": 558,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 39,
+      "production_date": "2026-10-08",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 304,
+      "actual_units": 232,
+      "downtime_hours": 1.25
+    },
+    {
+      "record_id": 40,
+      "production_date": "2026-10-08",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 757,
+      "actual_units": 776,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 41,
+      "production_date": "2026-10-09",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 703,
+      "actual_units": 481,
+      "downtime_hours": 2.75
+    },
+    {
+      "record_id": 42,
+      "production_date": "2026-10-09",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 471,
+      "actual_units": 429,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 43,
+      "production_date": "2026-10-09",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 548,
+      "actual_units": 504,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 44,
+      "production_date": "2026-10-09",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 301,
+      "actual_units": 283,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 45,
+      "production_date": "2026-10-09",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 748,
+      "actual_units": 697,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 46,
+      "production_date": "2026-10-10",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 741,
+      "actual_units": 689,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 47,
+      "production_date": "2026-10-10",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 497,
+      "actual_units": 496,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 48,
+      "production_date": "2026-10-10",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 511,
+      "actual_units": 469,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 49,
+      "production_date": "2026-10-10",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 284,
+      "actual_units": 281,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 50,
+      "production_date": "2026-10-10",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 650,
+      "actual_units": 606,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 51,
+      "production_date": "2026-10-11",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 690,
+      "actual_units": 710,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 52,
+      "production_date": "2026-10-11",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 469,
+      "actual_units": 328,
+      "downtime_hours": 2.0
+    },
+    {
+      "record_id": 53,
+      "production_date": "2026-10-11",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 476,
+      "actual_units": 469,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 54,
+      "production_date": "2026-10-11",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 301,
+      "actual_units": 307,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 55,
+      "production_date": "2026-10-11",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 644,
+      "actual_units": 504,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 56,
+      "production_date": "2026-10-12",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 729,
+      "actual_units": 730,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 57,
+      "production_date": "2026-10-12",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 574,
+      "actual_units": 461,
+      "downtime_hours": 1.25
+    },
+    {
+      "record_id": 58,
+      "production_date": "2026-10-12",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 560,
+      "actual_units": 491,
+      "downtime_hours": 0.75
+    },
+    {
+      "record_id": 59,
+      "production_date": "2026-10-12",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 297,
+      "actual_units": 270,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 60,
+      "production_date": "2026-10-12",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 682,
+      "actual_units": 670,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 61,
+      "production_date": "2026-10-13",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 661,
+      "actual_units": 678,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 62,
+      "production_date": "2026-10-13",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 572,
+      "actual_units": 588,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 63,
+      "production_date": "2026-10-13",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 480,
+      "actual_units": 447,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 64,
+      "production_date": "2026-10-13",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 296,
+      "actual_units": 262,
+      "downtime_hours": 1.25
+    },
+    {
+      "record_id": 65,
+      "production_date": "2026-10-13",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 655,
+      "actual_units": 634,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 66,
+      "production_date": "2026-10-14",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 722,
+      "actual_units": 758,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 67,
+      "production_date": "2026-10-14",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 525,
+      "actual_units": 485,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 68,
+      "production_date": "2026-10-14",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 495,
+      "actual_units": 489,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 69,
+      "production_date": "2026-10-14",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 305,
+      "actual_units": 277,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 70,
+      "production_date": "2026-10-14",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 704,
+      "actual_units": 724,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 71,
+      "production_date": "2026-10-15",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 678,
+      "actual_units": 618,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 72,
+      "production_date": "2026-10-15",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 482,
+      "actual_units": 483,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 73,
+      "production_date": "2026-10-15",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 488,
+      "actual_units": 300,
+      "downtime_hours": 2.75
+    },
+    {
+      "record_id": 74,
+      "production_date": "2026-10-15",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 309,
+      "actual_units": 298,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 75,
+      "production_date": "2026-10-15",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 704,
+      "actual_units": 732,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 76,
+      "production_date": "2026-10-16",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 686,
+      "actual_units": 642,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 77,
+      "production_date": "2026-10-16",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 506,
+      "actual_units": 478,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 78,
+      "production_date": "2026-10-16",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 497,
+      "actual_units": 453,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 79,
+      "production_date": "2026-10-16",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 300,
+      "actual_units": 315,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 80,
+      "production_date": "2026-10-16",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 626,
+      "actual_units": 570,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 81,
+      "production_date": "2026-10-17",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 797,
+      "actual_units": 761,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 82,
+      "production_date": "2026-10-17",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 479,
+      "actual_units": 482,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 83,
+      "production_date": "2026-10-17",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 531,
+      "actual_units": 530,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 84,
+      "production_date": "2026-10-17",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 269,
+      "actual_units": 254,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 85,
+      "production_date": "2026-10-17",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 716,
+      "actual_units": 659,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 86,
+      "production_date": "2026-10-18",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 672,
+      "actual_units": 494,
+      "downtime_hours": 1.75
+    },
+    {
+      "record_id": 87,
+      "production_date": "2026-10-18",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 530,
+      "actual_units": 493,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 88,
+      "production_date": "2026-10-18",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 534,
+      "actual_units": 449,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 89,
+      "production_date": "2026-10-18",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 326,
+      "actual_units": 249,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 90,
+      "production_date": "2026-10-18",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 615,
+      "actual_units": 612,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 91,
+      "production_date": "2026-10-19",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 696,
+      "actual_units": 684,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 92,
+      "production_date": "2026-10-19",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 510,
+      "actual_units": 494,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 93,
+      "production_date": "2026-10-19",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 565,
+      "actual_units": 579,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 94,
+      "production_date": "2026-10-19",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 308,
+      "actual_units": 273,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 95,
+      "production_date": "2026-10-19",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 752,
+      "actual_units": 774,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 96,
+      "production_date": "2026-10-20",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 800,
+      "actual_units": 641,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 97,
+      "production_date": "2026-10-20",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 551,
+      "actual_units": 529,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 98,
+      "production_date": "2026-10-20",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 532,
+      "actual_units": 359,
+      "downtime_hours": 2.75
+    },
+    {
+      "record_id": 99,
+      "production_date": "2026-10-20",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 334,
+      "actual_units": 345,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 100,
+      "production_date": "2026-10-20",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 618,
+      "actual_units": 587,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 101,
+      "production_date": "2026-10-21",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 805,
+      "actual_units": 829,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 102,
+      "production_date": "2026-10-21",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 554,
+      "actual_units": 349,
+      "downtime_hours": 2.5
+    },
+    {
+      "record_id": 103,
+      "production_date": "2026-10-21",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 561,
+      "actual_units": 524,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 104,
+      "production_date": "2026-10-21",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 324,
+      "actual_units": 306,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 105,
+      "production_date": "2026-10-21",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 737,
+      "actual_units": 663,
+      "downtime_hours": 0.25
+    },
+    {
+      "record_id": 106,
+      "production_date": "2026-10-22",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 706,
+      "actual_units": 738,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 107,
+      "production_date": "2026-10-22",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 493,
+      "actual_units": 473,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 108,
+      "production_date": "2026-10-22",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 574,
+      "actual_units": 597,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 109,
+      "production_date": "2026-10-22",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 277,
+      "actual_units": 257,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 110,
+      "production_date": "2026-10-22",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 762,
+      "actual_units": 690,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 111,
+      "production_date": "2026-10-23",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 772,
+      "actual_units": 765,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 112,
+      "production_date": "2026-10-23",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 520,
+      "actual_units": 513,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 113,
+      "production_date": "2026-10-23",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 490,
+      "actual_units": 441,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 114,
+      "production_date": "2026-10-23",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 331,
+      "actual_units": 334,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 115,
+      "production_date": "2026-10-23",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 728,
+      "actual_units": 695,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 116,
+      "production_date": "2026-10-24",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 664,
+      "actual_units": 630,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 117,
+      "production_date": "2026-10-24",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 497,
+      "actual_units": 501,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 118,
+      "production_date": "2026-10-24",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 495,
+      "actual_units": 476,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 119,
+      "production_date": "2026-10-24",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 296,
+      "actual_units": 267,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 120,
+      "production_date": "2026-10-24",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 759,
+      "actual_units": 786,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 121,
+      "production_date": "2026-10-25",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 753,
+      "actual_units": 740,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 122,
+      "production_date": "2026-10-25",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 461,
+      "actual_units": 370,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 123,
+      "production_date": "2026-10-25",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 536,
+      "actual_units": 518,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 124,
+      "production_date": "2026-10-25",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 283,
+      "actual_units": 293,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 125,
+      "production_date": "2026-10-25",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 737,
+      "actual_units": 675,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 126,
+      "production_date": "2026-10-26",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 756,
+      "actual_units": 773,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 127,
+      "production_date": "2026-10-26",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 547,
+      "actual_units": 511,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 128,
+      "production_date": "2026-10-26",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 484,
+      "actual_units": 411,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 129,
+      "production_date": "2026-10-26",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 326,
+      "actual_units": 263,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 130,
+      "production_date": "2026-10-26",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 644,
+      "actual_units": 627,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 131,
+      "production_date": "2026-10-27",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 693,
+      "actual_units": 624,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 132,
+      "production_date": "2026-10-27",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 547,
+      "actual_units": 501,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 133,
+      "production_date": "2026-10-27",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 510,
+      "actual_units": 312,
+      "downtime_hours": 3.0
+    },
+    {
+      "record_id": 134,
+      "production_date": "2026-10-27",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 272,
+      "actual_units": 181,
+      "downtime_hours": 2.5
+    },
+    {
+      "record_id": 135,
+      "production_date": "2026-10-27",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 737,
+      "actual_units": 773,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 136,
+      "production_date": "2026-10-28",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 750,
+      "actual_units": 775,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 137,
+      "production_date": "2026-10-28",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 531,
+      "actual_units": 518,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 138,
+      "production_date": "2026-10-28",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 556,
+      "actual_units": 575,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 139,
+      "production_date": "2026-10-28",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 319,
+      "actual_units": 300,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 140,
+      "production_date": "2026-10-28",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 652,
+      "actual_units": 662,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 141,
+      "production_date": "2026-10-29",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 738,
+      "actual_units": 695,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 142,
+      "production_date": "2026-10-29",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 470,
+      "actual_units": 390,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 143,
+      "production_date": "2026-10-29",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 523,
+      "actual_units": 459,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 144,
+      "production_date": "2026-10-29",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 316,
+      "actual_units": 262,
+      "downtime_hours": 1.25
+    },
+    {
+      "record_id": 145,
+      "production_date": "2026-10-29",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-A",
+      "planned_units": 678,
+      "actual_units": 571,
+      "downtime_hours": 1.5
+    },
+    {
+      "record_id": 146,
+      "production_date": "2026-10-30",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 748,
+      "actual_units": 769,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 147,
+      "production_date": "2026-10-30",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 549,
+      "actual_units": 495,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 148,
+      "production_date": "2026-10-30",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 501,
+      "actual_units": 515,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 149,
+      "production_date": "2026-10-30",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 333,
+      "actual_units": 337,
+      "downtime_hours": 0.0
+    },
+    {
+      "record_id": 150,
+      "production_date": "2026-10-30",
+      "shift": "morning",
+      "machine_id": "M5",
+      "product_code": "P-C",
+      "planned_units": 698,
+      "actual_units": 651,
+      "downtime_hours": 0.0
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# Runtime generated production record files
+data/records.csv
+data/records.json
+*.tmp
+__pycache__/
