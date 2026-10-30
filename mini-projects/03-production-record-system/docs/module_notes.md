@@ -140,4 +140,42 @@ class RecordStore:
 ---
 
 ## 3. KPI Analizi, Raporlama ve Entegrasyon (Kişi C)
-*(Kişi C tarafından doldurulacaktır: analysis.py, report.py, main.py, test_analysis.py, test_persistence.py)*
+
+### 3.1 Sorumluluk Kapsamı
+- `production_records/analysis.py`: Plan–gerçekleşen farkı (`production_gap`), plan gerçekleşme yüzdesi (`attainment_pct`), kullanılabilirlik (`availability_pct`), genel KPI özeti (`summarize_records`) ve alan bazlı gruplama özeti (`summarize_by`).
+- `production_records/report.py`: Rapor oluşturma (`build_summary_report`, `build_record_table`) ve yazdırma (`print_summary_report`, `print_record_table`) fonksiyonları.
+- `main.py`: 7 seçenekli Türkçe konsol menü uygulaması ve tüm modüllerin entegrasyonu.
+- `production_records/__init__.py`: Paketin dışa açılan sınıf, sabit ve fonksiyon arayüzü.
+- `tests/test_analysis.py`: KPI hesaplama ve raporlama birim testleri (64 test).
+- `tests/test_persistence.py`: Oturum kapat-aç (nesne yenileme, ayrı `subprocess` ve `main.py` uçtan uca) veri kalıcılığı testleri (15 test).
+- `docs/format_comparison.md`, `README.md`, `docs/screenshot.png` ve teslim paketi entegrasyonu.
+
+### 3.2 KPI Hesaplama Tasarımı (`analysis.py`)
+
+`analysis.py` modülü saf (pure) hesaplama fonksiyonları içerir; dosya sistemi, `print` veya `input` kullanmaz ve bellekteki `ProductionRecord` nesneleri üzerinde çalışır.
+
+#### Formüller ve Yuvarlama Kuralı
+- `calculate_production_gap(planned_units, actual_units) -> int`:
+  `production_gap = actual_units - planned_units` (Pozitif: fazla üretim, negatif: üretim açığı, `0`: tam gerçekleşme; Mini Proje 1 işaret kuralı).
+- `calculate_attainment_pct(planned_units, actual_units) -> float`:
+  `attainment_pct = actual_units / planned_units * 100` (`planned_units <= 0` ise Türkçe mesajlı `ValueError`).
+- `calculate_availability_pct(downtime_hours, shift_hours=SHIFT_HOURS) -> float`:
+  `availability_pct = (shift_hours - downtime_hours) / shift_hours * 100`. Çoklu kayıt özetinde `shift_hours = record_count * 8.0` olarak geçirilir.
+- **Yuvarlama Kuralı:** `analysis.py` içindeki hiçbir fonksiyonda `round()` uygulanmaz; tüm ondalıklı sayılar tam hassasiyetle (`float`) döner. Yuvarlama yalnızca `report.py` katmanında kullanıcıya gösterim sırasında (`%.2f`) yapılır.
+
+#### Özet Sözlüğü (`summarize_records`) ve Gruplama (`summarize_by`)
+- `summarize_records(records: list) -> dict`: Bölüm 3.4'te tanımlanan 11 anahtarlı (`record_count`, `date_from`, `date_to`, `total_planned_units`, `total_actual_units`, `production_gap`, `attainment_pct`, `total_downtime_hours`, `availability_pct`, `plan_met`, `status_message`) özet sözlüğünü döndürür. Boş liste verildiğinde `ValueError` fırlatır.
+- `summarize_by(records: list, group_field: str) -> dict`: Kayıtları `'production_date'`, `'machine_id'`, `'product_code'` veya `'shift'` alanına göre gruplar ve her grup için `{grup_değeri: özet_sözlüğü}` döndürür. Desteklenmeyen alan adlarında `ValueError` verir.
+
+### 3.3 Raporlama Tasarımı (`report.py`)
+- Mini Proje 1'deki mimari kural korunarak rapor metnini oluşturan fonksiyonlar (`build_summary_report`, `build_record_table`) ile ekrana yazdıran fonksiyonlar (`print_summary_report`, `print_record_table`) birbirinden ayrılmıştır.
+- `build_summary_report` fonksiyonu, 8 sabit test kaydı (`data/test_records.*`) ve `Makine Bazında` gruplaması ile çağrıldığında şartname Bölüm 5'teki hedef rapor çıktısını karakteri karakterine üretir.
+
+### 3.4 Ana Uygulama ve Entegrasyon (`main.py`)
+- Uygulama açılışta kayıt dosyası yolunu sorar (varsayılan `data/records.csv`) ve `data/sample_factory.json` dosyasını `load_factory_json` ile okuyarak geçerli `machine_id` (`M1`–`M5`) ve `product_code` (`P-A`, `P-B`, `P-C`) kümelerini `RecordStore`'a verir.
+- Sayısal kullanıcı girdileri Mini Proje 1'den kopyalanan `inputs.get_number` fonksiyonu ile alınır (ondalık virgül desteği ve aralık kontrolü).
+- 7 menü seçeneği (`Yeni üretim kaydı ekle`, `Kayıtları listele`, `Genel performans özeti`, `Makine / ürün / gün bazında özet`, `Örnek veri üret ve dosyaya yaz`, `Dosya biçimini dönüştür (CSV ↔ JSON)`, `Çıkış`) döngüsel olarak çalışır ve hatalı girişlerde çökmeden kullanıcıyı uyarır.
+
+### 3.5 Ana Projeye Taşınacak Parçalar
+- `analysis.py` içindeki `calculate_production_gap`, `calculate_attainment_pct`, `calculate_availability_pct`, `summarize_records` ve `summarize_by` fonksiyonları, ilerleyen mini projelerde (KPI panosu, veritabanı raporlama ve karar destek modülleri) doğrudan yeniden kullanılacaktır.
+- `report.py` içindeki `build_summary_report` ve `build_record_table` fonksiyonları, konsol ve dışa aktarma raporlarının temel şablonunu oluşturur.
