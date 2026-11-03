@@ -108,4 +108,54 @@ simulate(config) -> SimulationResult
 
 ## 3. İstatistik, Rapor, Dışa Aktarım ve Entegrasyon (Kişi C)
 
-_Kişi C tarafından doldurulacak._
+### 3.1 Sorumluluk Kapsamı
+- `capacity_simulation/stats.py`: İstatistiksel hesaplamalar (`calculate_statistics`, `ddof=0`) ve KPI özet sözlükleri (`summarize_simulation`, `summarize_by_machine`).
+- `capacity_simulation/export.py`: `.npz` arşivleme, uzun biçimli CSV dışa aktarımı (`save_simulation_csv`), tamsayı paylaştırma (`split_units`) ve MP3 köprüsü (`simulation_to_records`).
+- `capacity_simulation/report.py`: Çerçeveli (`====`) Türkçe simülasyon raporu (`build_simulation_report`, `print_simulation_report`).
+- `capacity_simulation/benchmark.py`: Python döngüsü (MP1 tekil fonksiyonları) ile vektörel NumPy kapasite hesabının hız karşılaştırması (`compare_loop_and_numpy`).
+- `capacity_simulation/__init__.py`: Paket dışa aktarımları (`__all__`).
+- `main.py`: 6 seçenekli Türkçe konsol uygulaması.
+- `tests/test_stats.py`, `tests/test_export.py`, `tests/test_integration.py`: Bölüm 7.1, 7.2, 7.3, 7.4 ve 7.5 kapsamındaki birim ve entegrasyon testleri.
+- `data/simulation_output.csv`, `data/simulation_output.npz`, `requirements.txt`, `README.md`, `docs/screenshot.png`.
+
+### 3.2 Fonksiyonlar ve Tasarım Kararları
+```python
+# stats.py
+calculate_statistics(values, axis=None) -> dict          # {'mean', 'std', 'min', 'max'}, ddof=0
+summarize_simulation(result) -> dict                     # Bölüm 3.5 özet sözlüğü
+summarize_by_machine(result) -> dict                     # {machine_id: özet sözlüğü}
+
+# export.py
+save_simulation_npz(path, result) -> None                # np.savez, config JSON metni olarak
+load_simulation_npz(path) -> SimulationResult            # allow_pickle=False, bozuk/eksikte ValueError
+save_simulation_csv(path, result) -> None                # uzun biçim (M*D satır), yuvarlanmamış tam hassasiyet
+split_units(total, parts) -> list[int]                   # kalan ilk parçalara dağıtılır
+simulation_to_records(result, factory) -> list[ProductionRecord]  # MP3 vardiya köprüsü
+
+# report.py
+build_simulation_report(summary, machine_summaries=None) -> str
+print_simulation_report(summary, machine_summaries=None) -> None
+
+# benchmark.py
+compare_loop_and_numpy(machine_count=1000, days=365) -> dict
+build_benchmark_report(benchmark) -> str
+print_benchmark_report(benchmark) -> None
+```
+- **Standart Sapma (`ddof=0`):** Popülasyon standart sapması kullanılır (`STD_DDOF = 0`). MP5 Pandas karşılaştırmalarında `df.std(ddof=0)` verilmelidir.
+- **MP3 KPI Yeniden Kullanımı:** Toplam KPI'lar (`production_gap`, `attainment_pct`, `availability_pct`) ve Türkçe `status_message` metinleri doğrudan MP3 `production_records/analysis.py` fonksiyonlarıyla hesaplanır. Sayılar `stats.py` içinde yuvarlanmaz; yalnızca `report.py` aşamasında 2 ondalık basamağa biçimlendirilir.
+- **MP3 Köprüsü (`simulation_to_records`):** Her makine–gün hücresi `working_hours / SHIFT_HOURS` (yalnızca 8, 16, 24 saat; tam sayı değilse `ValueError`) kadar vardiyaya (`morning`, `afternoon`, `night`) bölünür. `planned_units` ve `actual_units` değerleri `split_units` ile paylaştırılır, `downtime_hours` eşit bölünür, ürün kodu hattın sıralı uygun ürünlerinden gün indeksine göre döndürülerek seçilir. Toplam planlanan, gerçekleşen ve duruş birebir korunur.
+
+### 3.3 Doğrulama ve Ölçüm Sonuçları
+- **Bölüm 7.2 (2×3 Sabit Örnek):** `summarize_simulation`, `summarize_by_machine`, `calculate_statistics` (tüm hücreler, `axis=1`, `axis=0`) ve `build_simulation_report` çıktıları şartnamedeki hedef metinle karakter karakter aynıdır.
+- **Bölüm 7.3 & 7.4 (Altın Değerler ve Köprü):** Tohum 42, 30 günlük simülasyon `simulation_to_records` ile 150 `ProductionRecord` (`M1: 30, M2: 60, M3: 30, M5: 30`) üretir; `days=120` ile 600 kayıt üretilir. `RecordStore.add_records` ve `summarize_records` sonuçları `summarize_simulation` ile birebir örtüşür (`total_planned_units=80449`, `total_actual_units=73774`, `production_gap=-6675`, `attainment_pct=91.70%`, `total_downtime_hours=65.25`, `availability_pct=94.56%`).
+- **Hız Karşılaştırması (`1000 makine × 365 gün = 365.000 hücre`, Python 3.12.0, NumPy 2.4.4):** Python döngüsü `0.0887 sn`, NumPy vektörel hesap `0.0029 sn` (~`30.4 kat` hızlanma, `np.allclose == True`).
+- **Python / NumPy Uyumluluğu Notu:** Şartnamede genel alt sınır `Python 3.10+` olarak geçse de sabitlenen `numpy==2.4.4` sürümü yalnızca `Python >= 3.11` desteklemektedir (Python 3.10 ile uyumsuzdur). Çalışma ve doğrulama Python 3.12 ile gerçekleştirilmiştir.
+
+### 3.4 Ana Projeye ve Sonraki Mini Projelere Taşınacak Parçalar
+| Hedef Proje | Taşınacak Modül / Fonksiyon | Kullanım Amacı |
+| :--- | :--- | :--- |
+| **MP5 – Pandas Analizi** | `simulation_to_records`, `save_simulation_csv`, `data/simulation_output.csv` | 120 günlük (600 vardiya kaydı) veya 30 günlük (120 makine-gün) tablosal veri kaynağı; `ddof=0` ile özet doğrulaması |
+| **MP6 – Dashboard** | `summarize_simulation`, `summarize_by_machine`, `SIMULATION_SUMMARY_KEYS` | KPI kartları ve makine-gün matris görselleştirmeleri |
+| **MP10 – İstatistiksel EDA** | `calculate_statistics` (`ddof=0`) | Dağılım ve betimsel istatistik referansı |
+| **MP15–16 – OR-Tools Çizelgeleme** | `load_simulation_npz`, `effective_capacity` matrisi | Günlük makine kapasite kısıtlarının okunması |
+| **MP23 – Büyük Proje Entegrasyonu** | `capacity_simulation` paketi (`__init__.py` dışa aktarımları) | Gerçek veri olmadığında tekrarlanabilir sentetik üretim ve kapasite veri kaynağı |
