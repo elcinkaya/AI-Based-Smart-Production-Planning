@@ -68,7 +68,41 @@ calculate_effective_capacity_array(theoretical_capacity, efficiency_pct)  # (M,)
 
 ## 2. Üretim ve Simülasyon (Kişi B)
 
-_Kişi B tarafından doldurulacak._
+### 2.1 Sorumluluk Kapsamı
+- `capacity_simulation/generation.py`: Kontrollü rastgele matrisler, planlanan/gerçekleşen üretim ve `simulate()`.
+- `tests/test_generation.py`: Şekiller, aralıklar, tekrarlanabilirlik, çizim sırası, duruş kuralları, Bölüm 7.2 sabit örneği, hatalı girdiler.
+- `tests/test_simulation.py`: Bölüm 7.3 altın değerleri ve tohumdan bağımsız özellik testleri.
+- `docs/data_generation_rules.md`: Bölüm 3.2–3.4'ün sade anlatımı.
+
+### 2.2 Fonksiyonlar (`generation.py`)
+```python
+create_rng(seed)                                                    # np.random.default_rng(seed)
+generate_efficiency_matrix(rng, efficiency_min_pct, efficiency_max_pct, days)  # (M,), (M,) -> (M, D) float64 – çizim 1
+generate_load_factor_matrix(rng, shape)                            # (M, D) float64 – çizim 2
+generate_downtime_matrix(rng, shape, working_hours)                # (M, D) float64 – çizim 3 ve 4 (bu sırayla)
+generate_performance_factor_matrix(rng, shape)                     # (M, D) float64 – çizim 5
+calculate_planned_units(effective_capacity, load_factor)           # (M, D) int64, deterministik
+calculate_actual_units(planned_units, performance_factor, downtime_hours, working_hours)  # (M, D) int64, deterministik
+simulate(config) -> SimulationResult
+```
+- `simulate` sırası: verimlilik → efektif kapasite (`capacity.py`) → yük oranı → planlanan → duruş → performans oranı → gerçekleşen. Tek `rng` bir kez oluşturulur; çizim sırası ve şekilleri Bölüm 3.3 ile birebir aynıdır.
+- Kapasite yalnızca A'nın `calculate_theoretical_capacity_array` / `calculate_effective_capacity_array` fonksiyonlarıyla hesaplanır; sabitler `models.py`'den okunur, yeniden tanımlanmaz.
+- Yuvarlama `np.rint` (yarıda çifte). Duruş `np.rint(x / 0.25) * 0.25` (= `round(x × 4) / 4`) ve `working_hours[:, None]` ile sınırlıdır. Çizim 4, duruş olmayan hücreler için de tam matris olarak çekilir.
+- Hatalar: `planned_units < 1` → `ValueError`; şekil uyuşmazlığı, metin içeren dizi, aralık dışı değer → `ValueError`; yanlış `rng`/`shape`/`config` türü → `TypeError` (Türkçe mesaj). Python döngüsü, global `np.random.*`, `print`/`input` yoktur; girdi dizileri değiştirilmez.
+
+### 2.3 Doğrulama
+- Bölüm 7.2 sabit örneği: planlanan `[[816, 768, 432], [576, 1216, 1280]]`, gerçekleşen `[[816, 691, 324], [558, 1216, 1280]]`, toplam 5088 / 4885.
+- Bölüm 7.3 altın değerleri (tohum 42, 30 gün, NumPy 2.4.4, Python 3.12.6): 80449 / 73774 / −6675, %91,70, 65,25 saat, 37 duruşlu makine–gün, %94,56, min planlanan 233, verimlilik ort. 78,73, efektif kapasite 745,57 / 286,24 / 289,64 / 1209,76 — hepsi birebir tuttu.
+- Özellik testleri: aynı tohum → `equals()` True, tohum 43 → False; verimlilik makine aralığında; `1 ≤ planned_units ≤ ceil(effective_capacity)`; duruş 0,25'in katı ve `≤ working_hours`; tam duruşta `actual_units = 0`; yapılandırma değişmiyor; küresel `np.random` durumu değişmiyor.
+
+### 2.4 Entegrasyon Notları (Kişi C için)
+- `simulate(config)` saf bir fonksiyondur; sonuç doğrudan `SimulationResult` olarak `stats.py`, `export.py` ve `report.py`'ye verilebilir.
+- `load_factor` ve `performance_factor` sonuçta saklanmaz (Bölüm 3.2 sözleşmesi); dışa aktarımda yalnızca `SimulationResult` alanları kullanılır.
+- Özet sözlüğü (`plan_met`, `status_message`, MP3 KPI fonksiyonları) C'nin `summarize_simulation` fonksiyonundadır; `test_simulation.py` toplamları yalnızca altın değer kontrolü için doğrudan NumPy ile hesaplar.
+
+### 2.5 Ana Projeye Taşınacak Parçalar
+- `simulate` ve `generate_*` fonksiyonları: MP9 canlı veri üreticisi, MP11–13 uzun dönem sentetik veri, MP17 arıza senaryosunda yapılandırma değiştirilip yeniden çalıştırma, MP18 SimPy parametreleri.
+- `calculate_planned_units` / `calculate_actual_units`: gerçek veriyle aynı formüllerin deterministik uygulanması.
 
 ---
 
