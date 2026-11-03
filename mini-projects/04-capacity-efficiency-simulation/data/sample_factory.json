@@ -1,0 +1,116 @@
+{
+  "products": [
+    {
+      "product_code": "P-A",
+      "name": "Bracket",
+      "processing_time_sec": 30.0,
+      "priority": 1
+    },
+    {
+      "product_code": "P-B",
+      "name": "Shaft",
+      "processing_time_sec": 45.0,
+      "priority": 2
+    },
+    {
+      "product_code": "P-C",
+      "name": "Housing",
+      "processing_time_sec": 60.0,
+      "priority": 3
+    }
+  ],
+  "machines": [
+    {
+      "machine_id": "M1",
+      "name": "CNC Lathe 1",
+      "working_hours": 8.0,
+      "cycle_time_sec": 30.0,
+      "efficiency_pct": 85.0,
+      "maintenance_interval_hours": 200.0,
+      "status": "running",
+      "operating_hours_since_maintenance": 50.0,
+      "line_id": "L1"
+    },
+    {
+      "machine_id": "M2",
+      "name": "CNC Lathe 2",
+      "working_hours": 16.0,
+      "cycle_time_sec": 45.0,
+      "efficiency_pct": 90.0,
+      "maintenance_interval_hours": 200.0,
+      "status": "idle",
+      "operating_hours_since_maintenance": 205.0,
+      "line_id": "L1"
+    },
+    {
+      "machine_id": "M3",
+      "name": "Milling Machine 1",
+      "working_hours": 8.0,
+      "cycle_time_sec": 60.0,
+      "efficiency_pct": 70.0,
+      "maintenance_interval_hours": 300.0,
+      "status": "running",
+      "operating_hours_since_maintenance": 100.0,
+      "line_id": "L2"
+    },
+    {
+      "machine_id": "M4",
+      "name": "Milling Machine 2",
+      "working_hours": 10.0,
+      "cycle_time_sec": 20.0,
+      "efficiency_pct": 95.0,
+      "maintenance_interval_hours": 250.0,
+      "status": "broken",
+      "operating_hours_since_maintenance": 10.0,
+      "line_id": "L2"
+    },
+    {
+      "machine_id": "M5",
+      "name": "Assembly Station",
+      "working_hours": 8.0,
+      "cycle_time_sec": 30.0,
+      "efficiency_pct": 80.0,
+      "maintenance_interval_hours": 150.0,
+      "status": "idle",
+      "operating_hours_since_maintenance": 20.0,
+      "line_id": "L3"
+    }
+  ],
+  "lines": [
+    {
+      "line_id": "L1",
+      "name": "Machining Line",
+      "machine_ids": [
+        "M1",
+        "M2"
+      ],
+      "compatible_product_codes": [
+        "P-A",
+        "P-B"
+      ]
+    },
+    {
+      "line_id": "L2",
+      "name": "Milling Line",
+      "machine_ids": [
+        "M3",
+        "M4"
+      ],
+      "compatible_product_codes": [
+        "P-B",
+        "P-C"
+      ]
+    },
+    {
+      "line_id": "L3",
+      "name": "Assembly Line",
+      "machine_ids": [
+        "M5"
+      ],
+      "compatible_product_codes": [
+        "P-A",
+        "P-C"
+      ]
+    }
+  ]
+}
