@@ -1,0 +1,9 @@
+record_id,production_date,shift,machine_id,product_code,planned_units,actual_units,downtime_hours
+1,2026-10-01,morning,M1,P-A,800,780,0.5
+2,2026-10-02,morning,M1,P-B,800,760,1.0
+3,2026-10-03,morning,M1,P-A,800,756,1.0
+4,2026-10-01,morning,M2,P-A,565,560,0.5
+5,2026-10-01,afternoon,M2,P-B,565,560,0.5
+6,2026-10-01,morning,M3,P-B,330,320,0.5
+7,2026-10-02,morning,M3,P-C,330,320,0.5
+8,2026-10-03,morning,M3,P-B,320,310,0.5

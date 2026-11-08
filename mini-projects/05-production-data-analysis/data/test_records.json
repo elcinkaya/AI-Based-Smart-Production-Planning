@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "record_id": 1,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 800,
+      "actual_units": 780,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 2,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-B",
+      "planned_units": 800,
+      "actual_units": 760,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 3,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M1",
+      "product_code": "P-A",
+      "planned_units": 800,
+      "actual_units": 756,
+      "downtime_hours": 1.0
+    },
+    {
+      "record_id": 4,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M2",
+      "product_code": "P-A",
+      "planned_units": 565,
+      "actual_units": 560,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 5,
+      "production_date": "2026-10-01",
+      "shift": "afternoon",
+      "machine_id": "M2",
+      "product_code": "P-B",
+      "planned_units": 565,
+      "actual_units": 560,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 6,
+      "production_date": "2026-10-01",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 330,
+      "actual_units": 320,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 7,
+      "production_date": "2026-10-02",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-C",
+      "planned_units": 330,
+      "actual_units": 320,
+      "downtime_hours": 0.5
+    },
+    {
+      "record_id": 8,
+      "production_date": "2026-10-03",
+      "shift": "morning",
+      "machine_id": "M3",
+      "product_code": "P-B",
+      "planned_units": 320,
+      "actual_units": 310,
+      "downtime_hours": 0.5
+    }
+  ]
+}
