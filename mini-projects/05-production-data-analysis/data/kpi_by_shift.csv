@@ -1,0 +1,3 @@
+shift,record_count,total_planned_units,total_actual_units,production_gap,attainment_pct,total_downtime_hours,availability_pct,capacity_utilization_pct,downtime_event_count,attainment_pct_std,plan_met,status_message
+afternoon,108,55052,51631,-3421,93.78587517256413,30.875,96.42650462962963,82.99736368312757,32,7.564232974134824,False,Plan karşılanmadı. Üretim açığı: 3421 adet.
+morning,438,237980,218888,-19092,91.97747709891587,192.5,94.50627853881278,80.19990620236838,127,10.61709274763617,False,Plan karşılanmadı. Üretim açığı: 19092 adet.

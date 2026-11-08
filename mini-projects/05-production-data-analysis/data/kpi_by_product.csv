@@ -1,0 +1,4 @@
+product_code,record_count,total_planned_units,total_actual_units,production_gap,attainment_pct,total_downtime_hours,availability_pct,capacity_utilization_pct,downtime_event_count,attainment_pct_std,plan_met,status_message
+P-A,220,131311,121756,-9555,92.72338189489075,83.5,95.25568181818181,80.98925074499788,69,9.049881677737465,False,Plan karşılanmadı. Üretim açığı: 9555 adet.
+P-B,213,107065,99582,-7483,93.01078783916313,83.875,95.07775821596243,81.4856637863315,60,9.967013815056733,False,Plan karşılanmadı. Üretim açığı: 7483 adet.
+P-C,113,54656,49181,-5475,89.98280152224825,56.0,93.80530973451327,78.5739391615542,30,12.00737793145776,False,Plan karşılanmadı. Üretim açığı: 5475 adet.

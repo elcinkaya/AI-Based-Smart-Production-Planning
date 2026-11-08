@@ -1,0 +1,5 @@
+machine_id,record_count,total_planned_units,total_actual_units,production_gap,attainment_pct,total_downtime_hours,availability_pct,capacity_utilization_pct,downtime_event_count,attainment_pct_std,plan_met,status_message
+M1,107,75892,70442,-5450,92.81874242344385,41.25,95.18107476635514,80.67848634781015,27,10.198371636351697,False,Plan karşılanmadı. Üretim açığı: 5450 adet.
+M2,220,111936,104909,-7027,93.72230560320183,63.375,96.39914772727273,82.78803661616162,67,7.583545811713481,False,Plan karşılanmadı. Üretim açığı: 7027 adet.
+M3,109,31382,28317,-3065,90.23325473201199,63.25,92.74655963302753,77.31815203145477,34,11.686841394962224,False,Plan karşılanmadı. Üretim açığı: 3065 adet.
+M5,110,73822,66851,-6971,90.55701552382759,55.5,93.69318181818181,79.13233901515152,31,12.03629391160856,False,Plan karşılanmadı. Üretim açığı: 6971 adet.

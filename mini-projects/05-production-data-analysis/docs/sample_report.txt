@@ -1,0 +1,120 @@
+====================================================================================================
+                                ÜRETİM VERİSİ ANALİZ RAPORU (PANDAS)                                
+====================================================================================================
+----------------------------------------------------------------------------------------------------
+1. VERİ KALİTESİ
+----------------------------------------------------------------------------------------------------
+  Ham satır sayısı          : 610
+  Temiz satır sayısı        : 546
+  Silinen satır sayısı      : 64
+  Doldurulan satır sayısı   : 12
+  Sorun türleri (temizlik günlüğü satırı):
+    missing_actual_units    :   12  (Gerçekleşen üretim eksik; silindi)
+    missing_downtime_hours  :   12  (Duruş süresi eksik; 0,0 ile dolduruldu)
+    invalid_date            :    6  (Geçersiz tarih; silindi)
+    invalid_shift           :    6  (Geçersiz vardiya; silindi)
+    unknown_machine_id      :    6  (Bilinmeyen makine; silindi)
+    invalid_planned_units   :    6  (Geçersiz planlanan üretim; silindi)
+    invalid_actual_units    :   12  (Geçersiz gerçekleşen üretim; silindi)
+    invalid_downtime_hours  :    6  (Geçersiz duruş süresi; silindi)
+    duplicate_key           :   10  (Tekrarlanan kayıt anahtarı; silindi)
+  Toplam günlük satırı      : 76
+----------------------------------------------------------------------------------------------------
+2. GENEL SONUÇ
+----------------------------------------------------------------------------------------------------
+==============================================
+      ÜRETİM KAYIT PERFORMANS RAPORU
+==============================================
+Kapsam
+  Kayıt sayısı          : 546
+  Tarih aralığı         : 2026-10-01 – 2027-01-28
+----------------------------------------------
+Genel Sonuçlar
+  Planlanan üretim      : 293032 adet
+  Gerçekleşen üretim    : 270519 adet
+  Üretim farkı          : -22513 adet
+  Plan gerçekleşme      : %92.32
+  Toplam duruş          : 223.38 saat
+  Kullanılabilirlik     : %94.89
+----------------------------------------------
+Makine Bazında
+  M1 : planlanan 75892, gerçekleşen 70442, fark -5450, %92.82
+  M2 : planlanan 111936, gerçekleşen 104909, fark -7027, %93.72
+  M3 : planlanan 31382, gerçekleşen 28317, fark -3065, %90.23
+  M5 : planlanan 73822, gerçekleşen 66851, fark -6971, %90.56
+----------------------------------------------
+DURUM: PLAN KARŞILANMADI
+Üretim açığı: 22513 adet
+==============================================
+Ek Göstergeler
+  Kapasite kullanım oranı   : %80.72
+  Duruşlu kayıt sayısı      : 159
+  Gerçekleşme std (ddof=0)  : 10.12 puan
+----------------------------------------------------------------------------------------------------
+3. KPI TABLOLARI
+----------------------------------------------------------------------------------------------------
+  Gerç.% = plan gerçekleşme, Kull.% = kullanılabilirlik, Kap.% = kapasite kullanımı, Std = gerçekleşme std (ddof=0)
+
+Makine Bazında
+  Grup         Kayıt  Planlanan  Gerçekleşen     Fark  Gerç.%  Duruş(sa)  Kull.%   Kap.%  Duruşlu    Std
+  ------------------------------------------------------------------------------------------------------
+  M1             107      75892        70442    -5450   92.82     41.250   95.18   80.68       27  10.20
+  M2             220     111936       104909    -7027   93.72     63.375   96.40   82.79       67   7.58
+  M3             109      31382        28317    -3065   90.23     63.250   92.75   77.32       34  11.69
+  M5             110      73822        66851    -6971   90.56     55.500   93.69   79.13       31  12.04
+
+Ürün Bazında
+  Grup         Kayıt  Planlanan  Gerçekleşen     Fark  Gerç.%  Duruş(sa)  Kull.%   Kap.%  Duruşlu    Std
+  ------------------------------------------------------------------------------------------------------
+  P-A            220     131311       121756    -9555   92.72     83.500   95.26   80.99       69   9.05
+  P-B            213     107065        99582    -7483   93.01     83.875   95.08   81.49       60   9.97
+  P-C            113      54656        49181    -5475   89.98     56.000   93.81   78.57       30  12.01
+
+Vardiya Bazında
+  Grup         Kayıt  Planlanan  Gerçekleşen     Fark  Gerç.%  Duruş(sa)  Kull.%   Kap.%  Duruşlu    Std
+  ------------------------------------------------------------------------------------------------------
+  afternoon      108      55052        51631    -3421   93.79     30.875   96.43   83.00       32   7.56
+  morning        438     237980       218888   -19092   91.98    192.500   94.51   80.20      127  10.62
+
+Gün Bazında
+  Gün sayısı                : 120
+  En düşük gerçekleşme      : 2026-12-12 (%71.70)
+  En yüksek gerçekleşme     : 2026-12-07 (%101.69)
+  En büyük üretim açığı     : 2026-11-13 (-642 adet)
+  Ayrıntı: data/kpi_by_day.csv
+
+Hafta Bazında
+  Hafta sayısı              : 18
+  En düşük gerçekleşme      : 2026-10-19 (%89.30)
+  En yüksek gerçekleşme     : 2026-10-26 (%96.02)
+  En büyük üretim açığı     : 2026-10-19 (-1720 adet)
+  Ayrıntı: data/kpi_by_week.csv
+
+----------------------------------------------------------------------------------------------------
+4. İŞLETME SORULARI
+----------------------------------------------------------------------------------------------------
+S1. Hangi makinenin plan gerçekleşme oranı en düşük?
+    Yanıt: M3, %90.23 (M1 %92.82, M2 %93.72, M5 %90.56)
+
+S2. Hangi vardiyada kullanılabilirlik en düşük?
+    Yanıt: morning, %94.51 (afternoon %96.43)
+
+S3. Hangi ürünün toplam duruşu, hangisinin kayıt başına ortalama duruşu en yüksek?
+    Toplam duruş: P-B, 83.875 saat
+    Kayıt başına: P-C, 0.4956 saat (P-A 0.3795, P-B 0.3938)
+    Yorum: P-B toplamda önde, ancak kayıt başına P-C daha kötü; toplam değer kayıt sayısından etkilenir.
+
+S4. Planı karşılamayan kayıtların oranı ve en yüksek olduğu makine nedir?
+    Yanıt: %77.84 (425 / 546); en yüksek M3, %85.32 (M1 %73.83, M2 %76.36, M5 %77.27)
+    Yorum: Plan kaçıran kayıt sayısı en çok M2 makinesinde (168 kayıt), ancak oran olarak M3 önde; karşılaştırmada oran esas alınır.
+
+S5. Tam haftalar içinde toplam üretim açığı en büyük hafta hangisi?
+    Yanıt: week_start 2026-10-19, -1720 adet (16 tam hafta içinde)
+
+S6. Hangi makinede kapasite kullanım oranı en yüksek?
+    Yanıt: M2, %82.79 (M1 %80.68, M3 %77.32, M5 %79.13)
+
+S7. Duruşlu ve duruşsuz kayıtlar arasında ortalama gerçekleşme oranı farkı nedir?
+    Yanıt: 159 duruşlu kayıtta %80.40; 387 duruşsuz kayıtta %97.05; fark 16.65 puan
+
+====================================================================================================

@@ -138,3 +138,72 @@ build_weekly_summary(analysis_df: pd.DataFrame) -> pd.DataFrame
 - **Ana Projeye Taşınacaklar:**
   - `cleaning.py`: MP7 PostgreSQL veri yükleme öncesi temizlik katmanı ve MP9 canlı veri akışı doğrulama filtresi.
   - `features.py`: MP6 Dashboard (`daily_series.csv`, `weekly_summary`), MP10 İstatistiksel EDA (`analysis_dataset.csv`), MP11 Talep/Üretim Tahmini (`actual_units_ma7`, `is_missing_day`) ve MP12–14 Makine Öğrenmesi modelleri (`shift_effective_capacity`, `priority`, `weekday`, `has_downtime`) için temel özellik mühendisliği (feature engineering) modülüdür.
+
+---
+
+## 3. KPI Tabloları, İşletme Soruları, Raporlama ve Entegrasyon (Kişi C)
+
+### 3.1 Sorumluluk Kapsamı
+- `production_analysis/kpi.py`: Grup bazında vektörel toplulaştırma, KPI tabloları, genel KPI özeti ve MP3 rapor uyumluluk dönüşümü (`calculate_kpi_table`, `summarize_kpi`, `kpi_table_to_group_summaries`, `build_kpi_tables`, `calculate_group_date_ranges`).
+- `production_analysis/questions.py`: Bölüm 7.5'teki yedi işletme sorusunun (`q1`–`q7`) gerçek veri üzerinden dinamik yanıtlanması (`answer_business_questions`).
+- `production_analysis/report.py`: MP3 `build_summary_report` bloğunu içeren Türkçe çerçeveli analiz raporu ve Bölüm 4'teki tüm analiz CSV çıktılarının kaydedilmesi (`build_analysis_report`, `print_analysis_report`, `save_analysis_outputs`).
+- `production_analysis/__init__.py`: Üç ekip üyesinin modüllerini tek paket arayüzünde dışa açan ortak bildirim dosyası.
+- `main.py`: MP1 `get_number` ile çalışan 7 seçenekli Türkçe konsol menüsü ve uçtan uca veri hattı (`1 → 5`).
+- `tests/test_kpi.py`, `tests/test_questions.py`, `tests/test_integration.py`: Bölüm 7.4, 7.5, 7.6 (MP1/MP3/MP4 8 uyum senaryosu) ve 7.7 testleri.
+- Teslim belgeleri ve çıktılar: `README.md`, `requirements.txt`, `docs/screenshot.png`, `docs/sample_report.txt` ve `data/` altındaki analiz CSV dosyaları.
+
+### 3.2 KPI Hesaplama ve Toplulaştırma Sözleşmesi (`kpi.py`)
+```python
+calculate_kpi_table(analysis_df: pd.DataFrame, group_by=None) -> pd.DataFrame
+summarize_kpi(analysis_df: pd.DataFrame) -> dict
+kpi_table_to_group_summaries(kpi_table: pd.DataFrame, date_ranges=None) -> dict
+build_kpi_tables(analysis_df: pd.DataFrame) -> dict
+```
+- **Grup Toplamları İlkesi (Bölüm 3.4):** Yüzde KPI'ları (`attainment_pct`, `availability_pct`, `capacity_utilization_pct`) hiçbir zaman tekil kayıt yüzdelerinin ortalamasıyla hesaplanmaz; `groupby(...).agg(...)` (named aggregation) ile elde edilen grup toplamları üzerinden vektörel olarak hesaplanır:
+  - `production_gap = total_actual_units - total_planned_units`
+  - `attainment_pct = total_actual_units / total_planned_units * 100.0`
+  - `availability_pct = (record_count * 8.0 - total_downtime_hours) / (record_count * 8.0) * 100.0`
+  - `capacity_utilization_pct = total_actual_units / sum(shift_effective_capacity) * 100.0`
+  - `downtime_event_count`: `downtime_hours > 0` olan kayıtların grup toplamı
+  - `attainment_pct_std`: kayıt düzeyindeki `attainment_pct` sütununun popülasyon standart sapması (`ddof=0` açıkça belirtilir)
+  - `plan_met = total_actual_units >= total_planned_units` ve MP3 ile birebir aynı Türkçe `status_message` metinleri.
+- **Sütun Sözleşmesi (`KPI_COLUMNS`):** `['record_count', 'total_planned_units', 'total_actual_units', 'production_gap', 'attainment_pct', 'total_downtime_hours', 'availability_pct', 'capacity_utilization_pct', 'downtime_event_count', 'attainment_pct_std', 'plan_met', 'status_message']`.
+- **MP3 Köprüsü (`kpi_table_to_group_summaries`):** Herhangi bir KPI tablosunu MP3 `summarize_by` sözlük biçimine dönüştürerek MP3 `build_summary_report` fonksiyonunun doğrudan yeniden kullanılmasını sağlar.
+
+### 3.3 İşletme Soruları (`questions.py`)
+```python
+answer_business_questions(analysis_df: pd.DataFrame) -> dict
+```
+- `q1`–`q7` anahtarlarının her biri `{'question': <Türkçe soru metni>, 'answer': <dict>}` yapısındadır. Hiçbir değer sabit kodlanmamıştır:
+  - `q1` (en düşük plan gerçekleşme makinesi): **M3 (%90,23)**
+  - `q2` (en düşük kullanılabilirlik vardiyası): **morning (%94,51)** vs afternoon (%96,43)
+  - `q3` (toplam vs kayıt başına duruş): Toplamda **P-B (83,875 saat)**, kayıt başında **P-C (0,4956 saat)** (P-A 0,3795, P-B 0,3938)
+  - `q4` (planı karşılamayan kayıt oranı): Genel **%77,84 (425 / 546)**; en yüksek **M3 (%85,32)** (kayıt sayısında M2 168 adet ile önde olsa da oranda M3 en yüksektir)
+  - `q5` (tam haftalar içinde en büyük üretim açığı): **2026-10-19 haftası (-1720 adet, 16 tam hafta içinde)**
+  - `q6` (en yüksek kapasite kullanım oranı): **M2 (%82,79)** (M1 %80,68, M5 %79,13, M3 %77,32)
+  - `q7` (duruşlu vs duruşsuz kayıtların ortalama gerçekleşme farkı): 159 duruşlu kayıtta **%80,40**, 387 duruşsuz kayıtta **%97,05**, fark **16,65 puan**.
+
+### 3.4 Raporlama ve Dosya Çıktıları (`report.py`)
+```python
+build_analysis_report(cleaning_summary: dict, summary: dict, kpi_tables: dict, answers: dict) -> str
+print_analysis_report(cleaning_summary: dict, summary: dict, kpi_tables: dict, answers: dict) -> None
+save_analysis_outputs(data_dir: str, clean_df, cleaning_log_df, analysis_df, kpi_tables: dict, daily_series, weekly_summary) -> list[str]
+```
+- Yuvarlama yalnızca `report.py` içinde görüntüleme aşamasında yapılır; DataFrame'ler ve CSV dosyaları yuvarlanmamış tam hassasiyetli değerleri taşır.
+- `save_analysis_outputs` fonksiyonu `clean_records.csv` dosyasını `dataframe_to_records` + MP3 `save_records_csv` ile yazar; böylece dosya MP3 `RecordStore` tarafından sıfır veri kaybıyla okunabilir.
+- Üretilen 10 analiz CSV dosyası: `clean_records.csv`, `cleaning_log.csv`, `analysis_dataset.csv`, `kpi_by_machine.csv`, `kpi_by_product.csv`, `kpi_by_shift.csv`, `kpi_by_day.csv`, `kpi_by_week.csv`, `daily_series.csv`, `weekly_summary.csv`.
+
+### 3.5 Sonraki Mini Projelere (MP6–MP23) Aktarılacak Bileşenler
+| Hedef Mini Proje | MP5'ten Aktarılan Modül / Dosya | Kullanım Amacı |
+|---|---|---|
+| **MP6 – Üretim Dashboard** | `kpi_by_*.csv`, `daily_series.csv`, `weekly_summary.csv`, `build_kpi_tables` | Makine/ürün/vardiya KPI grafiklerinin ve 7 günlük hareketli ortalama serisinin görselleştirilmesi |
+| **MP7 – PostgreSQL Şeması** | `schema.py`, `masters.py`, `clean_records.csv`, `cleaning_log.csv` | İlişkisel veritabanı tablo şemaları ve `(production_date, shift, machine_id)` benzersizlik kısıtı |
+| **MP8 – İleri SQL Analizi** | `kpi.py` altın değerleri (`293032`, `270519`, `-22513`, `%92,32`) | SQL pencere ve toplulaştırma sorgularının referans doğrulaması |
+| **MP9 – Canlı Veri Üreticisi** | `fault_injection.py`, `cleaning.py`, `docs/data_quality_rules.md` | Akan üretim verisinde hata enjeksiyonu ve gerçek zamanlı temizlik filtresi |
+| **MP10 – İstatistiksel EDA** | `analysis_dataset.csv`, `attainment_pct_std` (`ddof=0`) | Dağılım, korelasyon ve hipotez testleri için hazır temiz veri seti |
+| **MP11 – Zaman Serisi Tahmini** | `build_daily_series`, `actual_units_ma7`, `is_missing_day` | Eksiksiz günlük frekanslı (`freq='D'`) talep/üretim tahmin serisi |
+| **MP12–14 – Makine Öğrenmesi** | `add_derived_columns` (`shift_effective_capacity`, `priority`, `weekday`, `has_downtime`) | Kestirimci bakım ve verimlilik tahmin modelleri için özellik matrisi |
+| **MP15–17 – Optimizasyon** | `build_machine_master`, `build_product_master`, KPI taban çizgileri | Kapasite kısıtlı üretim çizelgeleme ve yeniden planlama parametreleri |
+| **MP19, MP21 – Streamlit & FastAPI** | `calculate_kpi_table`, `summarize_kpi`, `answer_business_questions` | Karar destek arayüzü ve REST API uç noktalarının doğrudan servis katmanı |
+| **MP23 – Tam Sistem Entegrasyonu** | `production_analysis` paketi (`__init__.py`) | Ortak veri hazırlama, temizlik ve KPI hesaplama çekirdek paketi |
+
